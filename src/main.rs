@@ -3,7 +3,7 @@ use yew::prelude::*;
 #[function_component(App)]
 fn app() -> Html {
     html! {
-        <h1>{ "Hello world, again!" }</h1>
+        <h1>{ "Hello world, temp!" }</h1>
     }
 }
 
