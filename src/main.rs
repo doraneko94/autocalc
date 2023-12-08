@@ -34,11 +34,11 @@ fn main_home() -> Html {
                 <tbody>
                     <tr>
                         <th scope="raw">{1}</th>
-                        <td><a href="/unit/length">{"長さの単位を相互変換"}</a></td>
+                        <td><a href="/unit_length">{"長さの単位を相互変換"}</a></td>
                     </tr>
                     <tr>
                         <th scope="raw">{2}</th>
-                        <td><a href="/unit/length">{"重さの単位を相互変換"}</a></td>
+                        <td><a href="/unit_weight">{"重さの単位を相互変換"}</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -58,24 +58,23 @@ fn not_found() -> Html {
 enum MainRoute {
     #[at("/")]
     Home,
-    #[at("/unit")]
-    UnitRoot,
-    #[at("/unit/*")]
-    Unit,
-    #[at("/math")]
-    Math,
-    #[at("/map")]
-    Map,
+    #[at("/:id")]
+    Page { id: String },
     #[not_found]
     #[at("/404")]
-    NotFound,
+    NotFound
 }
 
 fn switch_main(route: MainRoute) -> Html {
     match route {
         MainRoute::Home => html! { <><MainHome /></> },
-        MainRoute::UnitRoot | MainRoute::Unit => html! { <Switch<UnitRoute> render={switch_unit} /> },
-        MainRoute::Math | MainRoute::Map => html! { <><App /></> },
+        MainRoute::Page { id } => 
+            match id.as_str() {
+                "unit" => html! { <><UnitHome /></> },
+                "unit_length" => html! { <><UnitLength /></> },
+                "unit_weight" => html! { <><UnitWeight /></> },
+                _ => html! { <><NotFound /></> }
+            },
         MainRoute::NotFound => html! { <><NotFound /></> }
     }
 }
@@ -85,25 +84,3 @@ use unit::{
     length::UnitLength,
     weight::UnitWeight,
 };
-
-#[derive(Clone, Routable, PartialEq)]
-enum UnitRoute {
-    #[at("/unit")]
-    Home,
-    #[at("/unit/length")]
-    Length,
-    #[at("/unit/weight")]
-    Weight,
-    #[not_found]
-    #[at("/unit/404")]
-    NotFound,
-}
-
-fn switch_unit(route: UnitRoute) -> Html {
-    match route {
-        UnitRoute::Home => html! { <><UnitHome /></> },
-        UnitRoute::Length => html! { <><UnitLength /></> },
-        UnitRoute::Weight => html! { <><UnitWeight /></> },
-        UnitRoute::NotFound => html!{ <Redirect<MainRoute> to={MainRoute::NotFound} /> }
-    }
-}
