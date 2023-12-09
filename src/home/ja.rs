@@ -1,7 +1,6 @@
 use yew::prelude::*;
 
 use crate::main_home;
-use crate::ads::AdsDisplayWide;
 use crate::header::ja::Header;
 use crate::home::{MainHomeTable, MainHomeTableItem};
 

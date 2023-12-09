@@ -1,4 +1,3 @@
-pub mod ads;
 pub mod header;
 pub mod home;
 pub mod notfound;

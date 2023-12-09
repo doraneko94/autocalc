@@ -16,7 +16,6 @@ macro_rules! main_home {
             html!{
                 <>
                 <Header />
-                <AdsDisplayWide />
                 <main class="container-fluid mt-2">
                     <MainHomeTable title={$title} items={
                         vec![
@@ -25,7 +24,6 @@ macro_rules! main_home {
                         ]
                     } />
                 </main>
-                <AdsDisplayWide />
                 </>
             }
         }
