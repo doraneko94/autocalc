@@ -1,5 +1,5 @@
 pub mod length;
-pub mod weight;
+pub mod mass;
 
 use yew::prelude::{Html, html, function_component};
 
@@ -8,7 +8,7 @@ pub fn unit_home() -> Html {
     html! {
         <table>
             <tr><a href="/length">{"長さ"}</a></tr>
-            <tr><a href="/weight">{"重さ"}</a></tr>
+            <tr><a href="/mass">{"質量"}</a></tr>
         </table>
     }
 }
