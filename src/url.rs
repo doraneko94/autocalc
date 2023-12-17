@@ -1,5 +1,5 @@
-//pub const DOMAIN: &str = "https://autocalc.ushitora.net/";
-pub const DOMAIN: &str = "http://127.0.0.1:8080/";
+pub const DOMAIN: &str = "https://autocalc.ushitora.net/";
+//pub const DOMAIN: &str = "http://127.0.0.1:8080/";
 
 pub trait Url {
     fn to_url(&self, lang: Lang) -> String;
