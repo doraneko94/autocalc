@@ -84,21 +84,21 @@ pub fn main_home_base(props: &MainHomeBaseProps) -> Html {
         <main class="container-fluid mt-2">
             <div class="container text-center">
                 <div class="row align-items-start">
-                    <div class="col">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         {
                             props.props_list_1.iter().map(|props| html! {
                                 <Menu title={props.title.clone()} props_list={props.props_list.clone()} />
                             }).collect::<Html>()
                         }
                     </div>
-                    <div class="col">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         {
                             props.props_list_2.iter().map(|props| html! {
                                 <Menu title={props.title.clone()} props_list={props.props_list.clone()} />
                             }).collect::<Html>()
                         }
                     </div>
-                    <div class="col">
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         {
                             props.props_list_3.iter().map(|props| html! {
                                 <Menu title={props.title.clone()} props_list={props.props_list.clone()} />
