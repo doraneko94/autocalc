@@ -1,7 +1,10 @@
 use yew::prelude::*;
 
 use crate::main_home;
-use crate::header::en::Header;
-use crate::home::{MainHomeTable, MainHomeTableItem};
+use crate::header::ja::Header;
+use crate::home::{MainHomeBase, MenuProps};
+use crate::name::en::*;
+use crate::url::Lang::En as lang;
+use crate::url::*;
 
-main_home!("en", "Conversion of Units", "Interconversion of Length", "Interconversion of Mass");
+main_home!();

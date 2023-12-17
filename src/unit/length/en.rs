@@ -1,17 +1,21 @@
 use yew::prelude::*;
 
-use crate::unit_length;
 use crate::header::en::Header;
-use crate::unit::length::{
-    METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM,
-    UnitLengthForm
-};
+use crate::unit::length::UnitLengthBase;
 
-unit_length!(
-    "Interconversion of Length",
-    "SI unit", "Yard & Pound system (International Yard)", "Japanese Units", "Maritime system",
-    "Metre (m)",
-    "Inch (in)", "Feet (ft)", "Yard (yd)", "Chain", "Furlong (fur)", "Mile (mi)",
-    "寸 -Sun-", "尺 -Shaku-", "間 -Ken-\n歩 -Bu-\n尋 -Hiro-", "丈 -Joh-", "町 -Cho-", "里 -Ri-",
-    "Nautical mile", "Fathom"
-);
+#[function_component(UnitLength)]
+pub fn unit_length() -> Html {
+    html! {
+        <>
+        <Header />
+        <UnitLengthBase
+            title="Interconversion of Length" lead="Example text"
+            si_unit="SI unit" yard_pound="Yard & Pound system (International Yard)" shaku_kan="Japanese Units" maritime="Maritime system"
+            meter="Metre (m)"
+            inch="Inch (in)" feet="Feet (ft)" yard="Yard (yd)" chain="Chain" furlong="Furlong (fur)" mile="Mile (mi)"
+            sun="寸 -Sun-" shaku="尺 -Shaku-" ken="間 -Ken-  歩-Bu-  尋-Hiro-" jo="丈 -Jo-" cho="町 -Cho-" ri="里 -Ri-"
+            kairi="Nautical mile" fathom="Fathom"
+        />
+        </>
+    }
+}

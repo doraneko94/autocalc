@@ -6,5 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+coordinate = { path = "../coordinate" }
+statrs = "0.16.0"
+web-sys = "0.3.66"
 yew = { version = "0.21.0", features = ["csr"] }
 yew-router = "0.18.0"

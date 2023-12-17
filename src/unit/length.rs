@@ -1,253 +1,213 @@
 pub mod ja;
 pub mod en;
 
+use web_sys::HtmlInputElement;
 use yew::prelude::*;
+
+use crate::parse_state;
 
 #[derive(Properties, PartialEq)]
 pub struct UnitLengthFormProps {
     pub id: String,
-    pub value: String,
+    pub value: UseStateHandle<String>,
     pub name: String,
-    pub onchange: Callback<String>,
+    pub onchange: Callback<(String, String)>,
 }
 
 #[function_component(UnitLengthForm)]
 pub fn unit_length_form(props: &UnitLengthFormProps) -> Html {
-    let oninput = {
-        let value = props.value.clone();
-        let on_change = props.onchange.clone();
-        Callback::from(move |e: InputEvent| {
-            let v_str = e.data();
-
-            let value = match v_str {
-                Some(v) => { value.clone() + &v }
-                None => { "".to_string() }
-            };
-            e.prevent_default();
-            on_change.emit(value);
+    let onchange = {
+        let state = props.value.clone();
+        let id = props.id.clone();
+        let onchange_parent = props.onchange.clone();
+        Callback::from(move |e: Event| {
+            let value = e.target_unchecked_into::<HtmlInputElement>().value();
+            state.set(value.clone());
+            onchange_parent.emit((value, id.clone()));
         })
     };
     html! {
         <tr>
             <th scope="row">{props.name.clone()}</th>
             <td>
-                <input type="text" value={props.value.clone()} {oninput} class="form-control" id={props.id.clone()} />
+                <input type="number" step="0.1" value={(*props.value).clone()} {onchange} class="form-control" id={props.id.clone()} />
             </td>
         </tr>
     }
 }
 
-#[macro_export]
-macro_rules! unit_length {
-    (
-        $title: expr,
-        $si_unit: expr, $yard_pound: expr, $shaku_kan: expr, $maritime: expr,
-        $meter: expr,
-        $inch: expr, $feet: expr, $yard: expr, $chain: expr, $furlong: expr, $mile: expr,
-        $sun: expr, $shaku: expr, $ken: expr, $jo: expr, $cho: expr, $ri: expr,
-        $kairi: expr, $fathom: expr 
-    ) => {
-        macro_rules! onchange {
-            (
-                $us0: ident, $us1: ident, $us2: ident, $us3: ident, $us4: ident, $us5: ident, $us6: ident,
-                $us7: ident, $us8: ident, $us9: ident, $us10: ident, $us11: ident, $us12: ident, $us13: ident, $us14: ident,
-                $s0: ident, $s1: ident, $s2: ident, $s3: ident, $s4: ident, $s5: ident, $s6: ident, 
-                $s7: ident, $s8: ident, $s9: ident, $s10: ident, $s11: ident, $s12: ident, $s13: ident, $s14: ident
-            ) => {
-                {
-                    let us0 = $us0.clone();
-                    let us1 = $us1.clone();
-                    let us2 = $us2.clone();
-                    let us3 = $us3.clone();
-                    let us4 = $us4.clone();
-                    let us5 = $us5.clone();
-                    let us6 = $us6.clone();
-                    let us7 = $us7.clone();
-                    let us8 = $us8.clone();
-                    let us9 = $us9.clone();
-                    let us10 = $us10.clone();
-                    let us11 = $us11.clone();
-                    let us12 = $us12.clone();
-                    let us13 = $us13.clone();
-                    let us14 = $us14.clone();
-                    Callback::from(move |value: String| {
-                        let meter_f32 = match value.parse::<f32>() {
-                            Ok(v_f) => v_f * $s0,
-                            Err(_) => 0.0,
-                        };
-                        us0.set(value);
-                        us1.set((meter_f32 / $s1).to_string());
-                        us2.set((meter_f32 / $s2).to_string());
-                        us3.set((meter_f32 / $s3).to_string());
-                        us4.set((meter_f32 / $s4).to_string());
-                        us5.set((meter_f32 / $s5).to_string());
-                        us6.set((meter_f32 / $s6).to_string());
-                        us7.set((meter_f32 / $s7).to_string());
-                        us8.set((meter_f32 / $s8).to_string());
-                        us9.set((meter_f32 / $s9).to_string());
-                        us10.set((meter_f32 / $s10).to_string());
-                        us11.set((meter_f32 / $s11).to_string());
-                        us12.set((meter_f32 / $s12).to_string());
-                        us13.set((meter_f32 / $s13).to_string());
-                        us14.set((meter_f32 / $s14).to_string());
-                    })
-                }
-            };
-        }
-        
-        #[function_component(UnitLength)]
-        pub fn unit_length() -> Html {
-            let meter = use_state(|| 1.0_f32.to_string());
-            let inch = use_state(|| (1.0 / INCH).to_string());
-            let feet = use_state(|| (1.0 / FEET).to_string());
-            let yard = use_state(|| (1.0 / YARD).to_string());
-            let chain = use_state(|| (1.0 / CHAIN).to_string());
-            let furlong = use_state(|| (1.0 / FURLONG).to_string());
-            let mile = use_state(|| (1.0 / MILE).to_string());
-            let sun = use_state(|| (1.0 / SUN).to_string());
-            let shaku = use_state(|| (1.0 / SHAKU).to_string());
-            let ken = use_state(|| (1.0 / KEN).to_string());
-            let jo = use_state(|| (1.0 / JO).to_string());
-            let cho = use_state(|| (1.0 / CHO).to_string());
-            let ri = use_state(|| (1.0 / RI).to_string());
-            let kairi = use_state(|| (1.0 / KAIRI).to_string());
-            let fathom = use_state(|| (1.0 / FATHOM).to_string());
-        
-            let onchange_meter = onchange!(
-                meter, inch, feet, yard, chain, furlong, mile, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_inch = onchange!(
-                inch, meter, feet, yard, chain, furlong, mile, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                INCH, METER, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_feet = onchange!(
-                feet, meter, inch, yard, chain, furlong, mile, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                FEET, METER, INCH, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_yard = onchange!(
-                yard, meter, inch, feet, chain, furlong, mile, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                YARD, METER, INCH, FEET, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_chain = onchange!(
-                chain, meter, inch, feet, yard, furlong, mile, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                CHAIN, METER, INCH, FEET, YARD, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_furlong = onchange!(
-                furlong, meter, inch, feet, yard, chain, mile, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                FURLONG, METER, INCH, FEET, YARD, CHAIN, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_mile = onchange!(
-                mile, meter, inch, feet, yard, chain, furlong, sun, shaku, ken, jo, cho, ri, kairi, fathom, 
-                MILE, METER, INCH, FEET, YARD, CHAIN, FURLONG, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_sun = onchange!(
-                sun, meter, inch, feet, yard, chain, furlong, mile, shaku, ken, jo, cho, ri, kairi, fathom, 
-                SUN, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SHAKU, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_shaku = onchange!(
-                shaku, meter, inch, feet, yard, chain, furlong, mile, sun, ken, jo, cho, ri, kairi, fathom, 
-                SHAKU, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, KEN, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_ken = onchange!(
-                ken, meter, inch, feet, yard, chain, furlong, mile, sun, shaku, jo, cho, ri, kairi, fathom, 
-                KEN, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, JO, CHO, RI, KAIRI, FATHOM);
-            let onchange_jo = onchange!(
-                jo, meter, inch, feet, yard, chain, furlong, mile, sun, shaku, ken, cho, ri, kairi, fathom, 
-                JO, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, CHO, RI, KAIRI, FATHOM);
-            let onchange_cho = onchange!(
-                cho, meter, inch, feet, yard, chain, furlong, mile, sun, shaku, ken, jo, ri, kairi, fathom, 
-                CHO, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, RI, KAIRI, FATHOM);
-            let onchange_ri = onchange!(
-                ri, meter, inch, feet, yard, chain, furlong, mile, sun, shaku, ken, jo, cho, kairi, fathom, 
-                RI, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, KAIRI, FATHOM);
-            let onchange_kairi = onchange!(
-                kairi, meter, inch, feet, yard, chain, furlong, mile, sun, shaku, ken, jo, cho, ri, fathom, 
-                KAIRI, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, FATHOM);
-            let onchange_fathom = onchange!(
-                fathom, meter, inch, feet, yard, chain, furlong, mile, sun, shaku, ken, jo, cho, ri, kairi, 
-                FATHOM, METER, INCH, FEET, YARD, CHAIN, FURLONG, MILE, SUN, SHAKU, KEN, JO, CHO, RI, KAIRI);
-            html! {
-                <>
-                    <Header />
-                    <h2>{$title}</h2>
-                    <main class="container-fluid mt-2">
-                    <div class="accordion" id="accordionUnits">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                {$si_unit}
-                            </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <table class="table">
-                                    <tbody>
-                                        <UnitLengthForm id={"meter"} value={(*meter).clone()} name={$meter} onchange={onchange_meter} />
-                                    </tbody>
-                                </table>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                {$yard_pound}
-                            </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse show">
-                            <div class="accordion-body">
-                                <table class="table">
-                                    <tbody>
-                                        <UnitLengthForm id={"inch"} value={(*inch).clone()} name={$inch} onchange={onchange_inch} />
-                                        <UnitLengthForm id={"feet"} value={(*feet).clone()} name={$feet} onchange={onchange_feet} />
-                                        <UnitLengthForm id={"yard"} value={(*yard).clone()} name={$yard} onchange={onchange_yard} />
-                                        <UnitLengthForm id={"chain"} value={(*chain).clone()} name={$chain} onchange={onchange_chain} />
-                                        <UnitLengthForm id={"furlong"} value={(*furlong).clone()} name={$furlong} onchange={onchange_furlong} />
-                                        <UnitLengthForm id={"mile"} value={(*mile).clone()} name={$mile} onchange={onchange_mile} />
-                                    </tbody>
-                                </table>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                {$shaku_kan}
-                            </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                <table class="table">
-                                    <tbody>
-                                        <UnitLengthForm id={"sun"} value={(*sun).clone()} name={$sun} onchange={onchange_sun} />
-                                        <UnitLengthForm id={"shaku"} value={(*shaku).clone()} name={$shaku} onchange={onchange_shaku} />
-                                        <UnitLengthForm id={"ken"} value={(*ken).clone()} name={$ken} onchange={onchange_ken} />
-                                        <UnitLengthForm id={"jo"} value={(*jo).clone()} name={$jo} onchange={onchange_jo} />
-                                        <UnitLengthForm id={"cho"} value={(*cho).clone()} name={$cho} onchange={onchange_cho} />
-                                        <UnitLengthForm id={"ri"} value={(*ri).clone()} name={$ri} onchange={onchange_ri} />
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                            <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                {$maritime}
-                            </button>
-                            </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse">
-                            <div class="accordion-body">
-                                <table class="table">
-                                    <tbody>
-                                        <UnitLengthForm id={"kairi"} value={(*kairi).clone()} name={$kairi} onchange={onchange_kairi} />
-                                        <UnitLengthForm id={"fathom"} value={(*fathom).clone()} name={$fathom} onchange={onchange_fathom} />
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </main>
-                </>
-            }
-        }
-    };
+#[derive(Properties, PartialEq)]
+pub struct UnitLengthBaseProps {
+    pub title: String,
+    pub lead: String,
+    pub si_unit: String, pub yard_pound: String, pub shaku_kan: String, pub maritime: String,
+    pub meter: String, 
+    pub inch: String, pub feet: String, pub yard: String, pub chain: String, pub furlong: String, pub mile: String,
+    pub sun: String, pub shaku: String, pub ken: String, pub cho: String, pub jo: String, pub ri: String,
+    pub kairi: String, pub fathom: String
 }
 
-const METER: f32 = 1.0;
+#[function_component(UnitLengthBase)]
+pub fn unit_length_base(props: &UnitLengthBaseProps) -> Html {
+    let meter = use_state(|| 1.0_f32.to_string());
+    let inch = use_state(|| (1.0 / INCH).to_string());
+    let feet = use_state(|| (1.0 / FEET).to_string());
+    let yard = use_state(|| (1.0 / YARD).to_string());
+    let chain = use_state(|| (1.0 / CHAIN).to_string());
+    let furlong = use_state(|| (1.0 / FURLONG).to_string());
+    let mile = use_state(|| (1.0 / MILE).to_string());
+    let sun = use_state(|| (1.0 / SUN).to_string());
+    let shaku = use_state(|| (1.0 / SHAKU).to_string());
+    let ken = use_state(|| (1.0 / KEN).to_string());
+    let jo = use_state(|| (1.0 / JO).to_string());
+    let cho = use_state(|| (1.0 / CHO).to_string());
+    let ri = use_state(|| (1.0 / RI).to_string());
+    let kairi = use_state(|| (1.0 / KAIRI).to_string());
+    let fathom = use_state(|| (1.0 / FATHOM).to_string());
+        
+    let onchange = {
+        let meter = meter.clone();
+        let inch = inch.clone();
+        let feet = feet.clone();
+        let yard = yard.clone();
+        let chain = chain.clone();
+        let furlong = furlong.clone();
+        let mile = mile.clone();
+        let sun = sun.clone();
+        let shaku = shaku.clone();
+        let ken = ken.clone();
+        let jo = jo.clone();
+        let cho = cho.clone();
+        let ri = ri.clone();
+        let kairi = kairi.clone();
+        let fathom = fathom.clone();
+
+        Callback::from(move |value: (String, String)| {
+            let (s, unit) = value;
+            let mut meter_f32 = parse_state!(s, f32);
+            meter_f32 = match unit.as_str() {
+                "meter" => meter_f32,
+                "inch" => meter_f32 * INCH,
+                "feet" => meter_f32 * FEET,
+                "yard" => meter_f32 * YARD,
+                "chain" => meter_f32 * CHAIN,
+                "furlong" => meter_f32 * FURLONG,
+                "mile" => meter_f32 * MILE,
+                "sun" => meter_f32 * SUN,
+                "shaku" => meter_f32 * SHAKU,
+                "ken" => meter_f32 * KEN,
+                "jo" => meter_f32 * JO,
+                "cho" => meter_f32 * CHO,
+                "ri" => meter_f32 * RI,
+                "kairi" => meter_f32 * KAIRI,
+                "fathom" => meter_f32 * FATHOM,
+                _ => 0.0
+            };
+            if unit.as_str() != "meter" { meter.set(meter_f32.to_string()); }
+            if unit.as_str() != "inch" { inch.set((meter_f32 / INCH).to_string()); }
+            if unit.as_str() != "feet" { feet.set((meter_f32 / FEET).to_string()); }
+            if unit.as_str() != "yard" { yard.set((meter_f32 / YARD).to_string()); }
+            if unit.as_str() != "chain" { chain.set((meter_f32 / CHAIN).to_string()); }
+            if unit.as_str() != "furlong" { furlong.set((meter_f32 / FURLONG).to_string()); }
+            if unit.as_str() != "mile" { mile.set((meter_f32 / MILE).to_string()); }
+            if unit.as_str() != "sun" { sun.set((meter_f32 / SUN).to_string()); }
+            if unit.as_str() != "shaku" { shaku.set((meter_f32 / SHAKU).to_string()); }
+            if unit.as_str() != "ken" { ken.set((meter_f32 / KEN).to_string()); }
+            if unit.as_str() != "jo" { jo.set((meter_f32 / JO).to_string()); }
+            if unit.as_str() != "cho" { cho.set((meter_f32 / CHO).to_string()); }
+            if unit.as_str() != "ri" { ri.set((meter_f32 / RI).to_string()); }
+            if unit.as_str() != "kairi" { kairi.set((meter_f32 / KAIRI).to_string()); }
+            if unit.as_str() != "fathom" { fathom.set((meter_f32 / FATHOM).to_string()); }
+        })
+    };
+    
+    html! {
+        <main class="container-fluid mt-2">
+        <div class="container">
+            <h1 class="mt-3">{&props.title}</h1>
+            <p class="lead">{&props.lead}</p>
+        </div>
+        <div class="accordion" id="accordionUnits">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    {&props.si_unit}
+                </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                    <table class="table">
+                        <tbody>
+                            <UnitLengthForm id={"meter"} value={meter.clone()} name={props.meter.clone()} onchange={onchange.clone()} />
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    {&props.yard_pound}
+                </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <tbody>
+                                <UnitLengthForm id={"inch"} value={inch.clone()} name={props.inch.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"feet"} value={feet.clone()} name={props.feet.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"yard"} value={yard.clone()} name={props.yard.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"chain"} value={chain.clone()} name={props.chain.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"furlong"} value={furlong.clone()} name={props.furlong.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"mile"} value={mile.clone()} name={props.mile.clone()} onchange={onchange.clone()} />
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    {&props.shaku_kan}
+                </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <tbody>
+                                <UnitLengthForm id={"sun"} value={sun.clone()} name={props.sun.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"shaku"} value={shaku.clone()} name={props.shaku.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"ken"} value={ken.clone()} name={props.ken.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"jo"} value={jo.clone()} name={props.jo.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"cho"} value={cho.clone()} name={props.cho.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"ri"} value={ri.clone()} name={props.ri.clone()} onchange={onchange.clone()} />
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    {&props.maritime}
+                </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <table class="table">
+                            <tbody>
+                                <UnitLengthForm id={"kairi"} value={kairi.clone()} name={props.kairi.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"fathom"} value={fathom.clone()} name={props.fathom.clone()} onchange={onchange.clone()} />
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </main>
+    }
+}
+
 const INCH: f32 = FEET / 12.0;
 const FEET: f32 = 0.3048;
 const YARD: f32 = FEET * 3.0;

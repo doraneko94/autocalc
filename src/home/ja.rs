@@ -2,6 +2,9 @@ use yew::prelude::*;
 
 use crate::main_home;
 use crate::header::ja::Header;
-use crate::home::{MainHomeTable, MainHomeTableItem};
+use crate::home::{MainHomeBase, MenuProps};
+use crate::name::ja::*;
+use crate::url::Lang::Ja as lang;
+use crate::url::*;
 
-main_home!("ja", "単位の換算", "長さの単位を相互変換", "質量の単位を相互変換");
+main_home!();

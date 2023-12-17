@@ -1,7 +1,12 @@
 use yew::prelude::*;
-use yew_router::prelude::*;
 
-use crate::create_header;
-use crate::router::{make_path, encode_query, parse_query};
+use crate::header::HeaderBase;
 
-create_header!("AutoCalc by Ushitora Lab.", "Languages");
+#[function_component(Header)]
+pub fn header() -> Html {
+    html! {
+        <>
+            <HeaderBase title={"AutoCalc by Ushitora Lab."} lang_menu={"Languages"} />
+        </>
+    }
+}
