@@ -1,10 +1,15 @@
-pub mod ja;
-pub mod en;
-
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
-use crate::parse_state;
+use crate::{parse_state, set_lang};
+use crate::breadcrumb::BreadCrumb;
+use crate::footer::Footer;
+use crate::header::Header;
+use crate::layout::class_core;
+use crate::router::parse_query;
+use crate::title::Title;
+use crate::url::{self, DataMode, Lang};
 
 #[derive(Properties, PartialEq)]
 pub struct UnitMassFormProps {
@@ -28,27 +33,37 @@ pub fn unit_mass_form(props: &UnitMassFormProps) -> Html {
     };
     html! {
         <tr>
-            <th scope="row">{props.name.clone()}</th>
-            <td>
+            <th scope="row" style="width: 50%">{props.name.clone()}</th>
+            <td style="width: 50%">
                 <input type="number" step="0.1" value={(*props.value).clone()} {onchange} class="form-control" id={props.id.clone()} />
             </td>
         </tr>
     }
 }
 
-#[derive(Properties, PartialEq)]
-pub struct UnitMassBaseProps {
-    pub title: String,
-    pub lead: String,
-    pub si_unit: String, pub yard_pound: String, pub shaku_kan: String,
-    pub kg: String,
-    pub grain: String, pub dram: String, pub ounce: String, pub pound: String, 
-    pub stone: String, pub quarter: String, pub cental: String, pub hrw: String, pub ton: String,
-    pub monme: String, pub ryo: String, pub kin: String, pub kan: String,
-}
+set_lang!(_si_unit, "SI単位", "SI Unit");
+set_lang!(_yard_pound, "ヤード・ポンド法（国際ヤード）", "Yard & Pound system (International Yard)");
+set_lang!(_shaku_kan, "尺貫法", "Japanese Units");
+set_lang!(_kg, "キログラム (kg)", "Kilogram (kg)");
+set_lang!(_grain, "グレーン (gr)", "Grain (gr)");
+set_lang!(_dram, "ドラム (dr)", "Dram (dr)");
+set_lang!(_ounce, "オンス (oz)", "Ounce (oz)");
+set_lang!(_pound, "ポンド (lb)", "Pound (lb)");
+set_lang!(_stone, "ストーン (stone)", "Stone (stone)");
+set_lang!(_quarter, "クォーター", "Quarter");
+set_lang!(_cental, "センタル", "Cental");
+set_lang!(_hrw, "ハンドレッドウェイト (cwt)", "Hundredweight (cwt)");
+set_lang!(_ton, "トン (t)", "Ton (t)");
+set_lang!(_monme, "匁", "匁 -Monme-");
+set_lang!(_ryo, "両", "両 -Ryo-");
+set_lang!(_kin, "斤", "斤 -Kin-");
+set_lang!(_kan, "貫", "貫 -Kan-");
 
-#[function_component(UnitMassBase)]
-pub fn unit_mass(props: &UnitMassBaseProps) -> Html {
+#[function_component(UnitMass)]
+pub fn unit_mass() -> Html {
+    let lang = match parse_query(use_location().unwrap().query_str()).1 {
+        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
+    };
     let kg = use_state(|| 1.0_f32.to_string());
     let grain = use_state(|| (1.0 / GRAIN).to_string());
     let dram = use_state(|| (1.0 / DRAM).to_string());
@@ -114,23 +129,24 @@ pub fn unit_mass(props: &UnitMassBaseProps) -> Html {
         })
     };
     html! {
-        <main class="container-fluid mt-2">
-        <div class="container">
-            <h1 class="mt-3">{&props.title}</h1>
-            <p class="lead">{&props.lead}</p>
-        </div>
-        <div class="accordion" id="accordionUnits">
+        <>
+        <Header />
+        <BreadCrumb />
+        <main class="container mt-2">
+        <Title title={url::unit_mass(DataMode::Name(lang))} lead={url::unit_mass(DataMode::Dscr(lang))} />
+        <div class="row justify-content-md-center">
+        <div class={class_core("accordion")} id="accordionUnits">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    {&props.si_unit}
+                    {_si_unit(lang)}
                 </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                     <table class="table">
                         <tbody>
-                            <UnitMassForm id={"kg"} value={kg.clone()} name={props.kg.clone()} onchange={onchange.clone()} />
+                            <UnitMassForm id={"kg"} value={kg.clone()} name={_kg(lang)} onchange={onchange.clone()} />
                         </tbody>
                     </table>
                     </div>
@@ -139,22 +155,22 @@ pub fn unit_mass(props: &UnitMassBaseProps) -> Html {
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    {&props.yard_pound}
+                    {_yard_pound(lang)}
                 </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                     <table class="table">
                         <tbody>
-                            <UnitMassForm id={"grain"} value={grain.clone()} name={props.grain.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"dram"} value={dram.clone()} name={props.dram.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"ounce"} value={ounce.clone()} name={props.ounce.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"pound"} value={pound.clone()} name={props.pound.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"stone"} value={stone.clone()} name={props.stone.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"quarter"} value={quarter.clone()} name={props.quarter.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"cental"} value={cental.clone()} name={props.cental.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"hrw"} value={hrw.clone()} name={props.hrw.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"ton"} value={ton.clone()} name={props.ton.clone()} onchange={onchange.clone()} />
+                            <UnitMassForm id={"grain"} value={grain.clone()} name={_grain(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"dram"} value={dram.clone()} name={_dram(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"ounce"} value={ounce.clone()} name={_ounce(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"pound"} value={pound.clone()} name={_pound(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"stone"} value={stone.clone()} name={_stone(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"quarter"} value={quarter.clone()} name={_quarter(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"cental"} value={cental.clone()} name={_cental(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"hrw"} value={hrw.clone()} name={_hrw(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"ton"} value={ton.clone()} name={_ton(lang)} onchange={onchange.clone()} />
                         </tbody>
                     </table>
                     </div>
@@ -163,24 +179,27 @@ pub fn unit_mass(props: &UnitMassBaseProps) -> Html {
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    {&props.shaku_kan}
+                    {_shaku_kan(lang)}
                 </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse">
                     <div class="accordion-body">
                     <table class="table">
                         <tbody>
-                            <UnitMassForm id={"monme"} value={monme.clone()} name={props.monme.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"ryo"} value={ryo.clone()} name={props.ryo.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"kin"} value={kin.clone()} name={props.kin.clone()} onchange={onchange.clone()} />
-                            <UnitMassForm id={"kan"} value={kan.clone()} name={props.kan.clone()} onchange={onchange.clone()} />
+                            <UnitMassForm id={"monme"} value={monme.clone()} name={_monme(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"ryo"} value={ryo.clone()} name={_ryo(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"kin"} value={kin.clone()} name={_kin(lang)} onchange={onchange.clone()} />
+                            <UnitMassForm id={"kan"} value={kan.clone()} name={_kan(lang)} onchange={onchange.clone()} />
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>
         </div>
         </main>
+        <Footer />
+        </>
     }
 }
 

@@ -1,11 +1,17 @@
-pub mod en;
-pub mod ja;
-
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::home::MainHome;
+use crate::map::MapHome;
+use crate::map::circle_center::MapCircleCenter;
 use crate::notfound::NotFound;
-use crate::url::Lang;
+use crate::privacy::Privacy;
+use crate::stat::StatHome;
+use crate::stat::roc_auc_ci::StatRocAucCi;
+use crate::unit::UnitHome;
+use crate::unit::length::UnitLength;
+use crate::unit::mass::UnitMass;
+use crate::url::*;
 
 #[derive(Clone, Routable, PartialEq)]
 pub enum MainRoute {
@@ -18,30 +24,8 @@ pub enum MainRoute {
 
 pub fn switch_main(route: MainRoute) -> Html {
     match route {
-        MainRoute::Home => html! { <><SwitchLang /></> },
+        MainRoute::Home => html! { <><SwitchPage /></> },
         MainRoute::NotFound => html! { <><NotFound /></> }
-    }
-}
-
-#[function_component(SwitchLang)]
-fn switch_lang() -> Html {
-    let location = use_location().unwrap();
-    let params = parse_query(location.query_str());
-    match params {
-        (Some(p), Some(lang)) => {
-            match lang {
-                Lang::Ja => html! { <><ja::SwitchPage page={p} /></> },
-                Lang::En => html! { <><en::SwitchPage page={p} /></> }
-            }
-        },
-        (None, Some(lang)) => {
-            match lang {
-                Lang::Ja => html! { <><ja::SwitchPage page={""} /></> },
-                Lang::En => html! { <><en::SwitchPage page={""} /></> }
-            }
-        },
-        (Some(p), None) => { html! { <><en::SwitchPage page={p}/></> } }
-        (None, None) => { html! { <><en::SwitchPage page={""}/></> } }
     }
 }
 
@@ -85,24 +69,28 @@ pub fn encode_query(params: (Option<String>, Option<Lang>)) -> String {
     query
 }
 
-#[macro_export]
-macro_rules! switch_page {
-    () => {
-        #[derive(Properties, PartialEq)]
-        pub struct SwitchPageProps {
-            pub page: String,
-        }
-
-        #[function_component(SwitchPage)]
-        pub fn switch_page(props: &SwitchPageProps) -> Html {
-            match props.page.as_str() {
-                HOME => html! { <><MainHome /></> },
-                UNIT => html! { <><UnitHome /></> },
-                UNIT_LENGTH => html! { <><UnitLength /></> },
-                UNIT_MASS => html! { <><UnitMass /></> },
-                MAP_CIRCLE_CENTER => html! { <><MapCircleCenter /></> },
-                _ => html! { <><NotFound /></> }
-            }
-        }
+macro_rules! switch {
+    ($f: ident, $path: ident, $page: ident) => {
+        if $f(DataMode::Route) == $path { return html! { <><$page /></> } }
     };
+}
+
+#[function_component(SwitchPage)]
+pub fn switch_page() -> Html {
+    let params = parse_query(use_location().unwrap().query_str());
+    let path = match params {
+        (Some(p), _) => p,
+        (None, _) => "".to_string(),
+    };
+
+    switch!(home, path, MainHome);
+    switch!(unit, path, UnitHome);
+    switch!(unit_length, path, UnitLength);
+    switch!(unit_mass, path, UnitMass);
+    switch!(map, path, MapHome);
+    switch!(map_circle_center, path, MapCircleCenter);
+    switch!(stat, path, StatHome);
+    switch!(stat_roc_auc_ci, path, StatRocAucCi);
+    switch!(privacy, path, Privacy);
+    html! { <><NotFound /></> }
 }

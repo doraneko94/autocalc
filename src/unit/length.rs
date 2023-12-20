@@ -1,10 +1,15 @@
-pub mod ja;
-pub mod en;
-
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
-use crate::parse_state;
+use crate::breadcrumb::BreadCrumb;
+use crate::footer::Footer;
+use crate::header::Header;
+use crate::layout::class_core;
+use crate::router::parse_query;
+use crate::url::{self, DataMode, Lang};
+use crate::{parse_state, set_lang};
+use crate::title::Title;
 
 #[derive(Properties, PartialEq)]
 pub struct UnitLengthFormProps {
@@ -28,27 +33,39 @@ pub fn unit_length_form(props: &UnitLengthFormProps) -> Html {
     };
     html! {
         <tr>
-            <th scope="row">{props.name.clone()}</th>
-            <td>
+            <th scope="row" style="width: 50%">{props.name.clone()}</th>
+            <td style="width: 50%">
                 <input type="number" step="0.1" value={(*props.value).clone()} {onchange} class="form-control" id={props.id.clone()} />
             </td>
         </tr>
     }
 }
 
-#[derive(Properties, PartialEq)]
-pub struct UnitLengthBaseProps {
-    pub title: String,
-    pub lead: String,
-    pub si_unit: String, pub yard_pound: String, pub shaku_kan: String, pub maritime: String,
-    pub meter: String, 
-    pub inch: String, pub feet: String, pub yard: String, pub chain: String, pub furlong: String, pub mile: String,
-    pub sun: String, pub shaku: String, pub ken: String, pub cho: String, pub jo: String, pub ri: String,
-    pub kairi: String, pub fathom: String
-}
+set_lang!(_si_unit, "SI単位", "SI Unit");
+set_lang!(_yard_pound, "ヤード・ポンド法（国際ヤード）", "Yard & Pound system (International Yard)");
+set_lang!(_shaku_kan, "尺貫法", "Japanese Units");
+set_lang!(_maritime, "海事系", "Maritime System");
+set_lang!(_meter, "メートル (m)", "Metre (m)");
+set_lang!(_inch, "インチ (in)", "Inch (in)");
+set_lang!(_feet, "フィート (ft)", "Feet (ft)");
+set_lang!(_yard, "ヤード (yd)", "Yard (yd)");
+set_lang!(_chain, "チェーン", "Chain");
+set_lang!(_furlong, "ハロン (fur)", "Furlong (fur)");
+set_lang!(_mile, "マイル (mi)", "Mile (mi)");
+set_lang!(_sun, "寸", "寸 -Sun-");
+set_lang!(_shaku, "尺", "尺 -Shaku-");
+set_lang!(_ken, "間・歩・尋", "間 -Ken-  歩-Bu-  尋-Hiro-");
+set_lang!(_cho, "丈", "丈 -Jo-");
+set_lang!(_jo, "町", "町 -Cho-");
+set_lang!(_ri, "里", "里 -Ri-");
+set_lang!(_kairi, "海里", "Nautical mile");
+set_lang!(_fathom, "ファゾム", "Fathom");
 
-#[function_component(UnitLengthBase)]
-pub fn unit_length_base(props: &UnitLengthBaseProps) -> Html {
+#[function_component(UnitLength)]
+pub fn unit_base() -> Html {
+    let lang = match parse_query(use_location().unwrap().query_str()).1 {
+        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
+    };
     let meter = use_state(|| 1.0_f32.to_string());
     let inch = use_state(|| (1.0 / INCH).to_string());
     let feet = use_state(|| (1.0 / FEET).to_string());
@@ -122,23 +139,24 @@ pub fn unit_length_base(props: &UnitLengthBaseProps) -> Html {
     };
     
     html! {
-        <main class="container-fluid mt-2">
-        <div class="container">
-            <h1 class="mt-3">{&props.title}</h1>
-            <p class="lead">{&props.lead}</p>
-        </div>
-        <div class="accordion" id="accordionUnits">
+        <>
+        <Header />
+        <BreadCrumb />
+        <main class="container mt-2">
+        <Title title={url::unit_length(DataMode::Name(lang))} lead={url::unit_length(DataMode::Dscr(lang))} />
+        <div class="row justify-content-md-center">
+        <div class={class_core("accordion")} id="accordionUnits">
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    {&props.si_unit}
+                    {_si_unit(lang)}
                 </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                     <table class="table">
                         <tbody>
-                            <UnitLengthForm id={"meter"} value={meter.clone()} name={props.meter.clone()} onchange={onchange.clone()} />
+                            <UnitLengthForm id={"meter"} value={meter.clone()} name={_meter(lang)} onchange={onchange.clone()} />
                         </tbody>
                     </table>
                     </div>
@@ -147,19 +165,19 @@ pub fn unit_length_base(props: &UnitLengthBaseProps) -> Html {
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    {&props.yard_pound}
+                    {_yard_pound(lang)}
                 </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse show">
                     <div class="accordion-body">
                         <table class="table">
                             <tbody>
-                                <UnitLengthForm id={"inch"} value={inch.clone()} name={props.inch.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"feet"} value={feet.clone()} name={props.feet.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"yard"} value={yard.clone()} name={props.yard.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"chain"} value={chain.clone()} name={props.chain.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"furlong"} value={furlong.clone()} name={props.furlong.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"mile"} value={mile.clone()} name={props.mile.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"inch"} value={inch.clone()} name={_inch(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"feet"} value={feet.clone()} name={_feet(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"yard"} value={yard.clone()} name={_yard(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"chain"} value={chain.clone()} name={_chain(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"furlong"} value={furlong.clone()} name={_furlong(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"mile"} value={mile.clone()} name={_mile(lang)} onchange={onchange.clone()} />
                             </tbody>
                         </table>
                     </div>
@@ -168,19 +186,19 @@ pub fn unit_length_base(props: &UnitLengthBaseProps) -> Html {
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    {&props.shaku_kan}
+                    {_shaku_kan(lang)}
                 </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <table class="table">
                             <tbody>
-                                <UnitLengthForm id={"sun"} value={sun.clone()} name={props.sun.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"shaku"} value={shaku.clone()} name={props.shaku.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"ken"} value={ken.clone()} name={props.ken.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"jo"} value={jo.clone()} name={props.jo.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"cho"} value={cho.clone()} name={props.cho.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"ri"} value={ri.clone()} name={props.ri.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"sun"} value={sun.clone()} name={_sun(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"shaku"} value={shaku.clone()} name={_shaku(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"ken"} value={ken.clone()} name={_ken(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"jo"} value={jo.clone()} name={_jo(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"cho"} value={cho.clone()} name={_cho(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"ri"} value={ri.clone()} name={_ri(lang)} onchange={onchange.clone()} />
                             </tbody>
                         </table>
                     </div>
@@ -189,22 +207,25 @@ pub fn unit_length_base(props: &UnitLengthBaseProps) -> Html {
             <div class="accordion-item">
                 <h2 class="accordion-header">
                 <button class="accordion-button collapsed btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    {&props.maritime}
+                    {_maritime(lang)}
                 </button>
                 </h2>
                 <div id="collapseFour" class="accordion-collapse collapse">
                     <div class="accordion-body">
                         <table class="table">
                             <tbody>
-                                <UnitLengthForm id={"kairi"} value={kairi.clone()} name={props.kairi.clone()} onchange={onchange.clone()} />
-                                <UnitLengthForm id={"fathom"} value={fathom.clone()} name={props.fathom.clone()} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"kairi"} value={kairi.clone()} name={_kairi(lang)} onchange={onchange.clone()} />
+                                <UnitLengthForm id={"fathom"} value={fathom.clone()} name={_fathom(lang)} onchange={onchange.clone()} />
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
         </main>
+        <Footer />
+        </>
     }
 }
 

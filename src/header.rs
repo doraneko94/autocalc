@@ -1,20 +1,11 @@
-pub mod ja;
-pub mod en;
-
 use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::router::{parse_query, encode_query};
-use crate::url::{HOME, Lang, Url, make_path};
+use crate::url::*;
 
-#[derive(Properties, PartialEq)]
-pub struct HeaderBaseProps {
-    pub title: String,
-    pub lang_menu: String,
-}
-
-#[function_component(HeaderBase)]
-pub fn header_base(props: &HeaderBaseProps) -> Html {
+#[function_component(Header)]
+pub fn header() -> Html {
     let params = parse_query(use_location().unwrap().query_str());
     let mut params_ja = params.clone();
     let mut params_en = params.clone();
@@ -27,17 +18,21 @@ pub fn header_base(props: &HeaderBaseProps) -> Html {
         Some(lang) => lang,
         _ => Lang::En,
     };
+    let (title, lang_menu) = match lang {
+        Lang::Ja => ("AutoCalc by 艮電算術研究所", "言語設定"),
+        Lang::En => ("AutoCalc by Ushitora Lab.", "Languages"),
+    };
     html! {
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a href={HOME.to_url(lang)} class="navbar-brand">{&props.title}</a>
+                <a href={home(DataMode::Url(lang))} class="navbar-brand">{title}</a>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle navbar-brand" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {&props.lang_menu}
+                        {lang_menu}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href={make_path(query_en.as_str())}>{"🇬🇧 English"}</a></li>
-                        <li><a class="dropdown-item" href={make_path(query_ja.as_str())}>{"🇯🇵 日本語"}</a></li>
+                        <li><a class="dropdown-item" href={query_to_url(query_en.as_str())}>{"🇬🇧 English"}</a></li>
+                        <li><a class="dropdown-item" href={query_to_url(query_ja.as_str())}>{"🇯🇵 日本語"}</a></li>
                     </ul>
                 </li>
             </div>

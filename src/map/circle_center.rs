@@ -1,12 +1,17 @@
 use coordinate::functions::circle_center;
 use coordinate::point::LatLon;
 use yew::prelude::*;
+use yew_router::prelude::*;
 
-use crate::parse_state;
+use crate::breadcrumb::BreadCrumb;
+use crate::footer::Footer;
+use crate::header::Header;
+use crate::layout::class_core;
+use crate::{parse_state, set_lang};
+use crate::router::parse_query;
+use crate::title::Title;
+use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
-
-pub mod ja;
-pub mod en;
 
 #[derive(Properties, PartialEq)]
 pub struct MapCircleCenterFormProps {
@@ -27,22 +32,29 @@ pub fn map_circle_center_form(props: &MapCircleCenterFormProps) -> Html {
 
     html! {
         <tr>
-        <td>{name}</td>
+        <th span="row">{name}</th>
         <td><input type="number" step=0.0000001 value={value_lat} onchange={onchange_lat} class="form-control" id={id_lat} /></td>
         <td><input type="number" step=0.0000001 value={value_lon} onchange={onchange_lon} class="form-control" id={id_lon} /></td>
         </tr>
     }
 }
 
-#[derive(Properties, PartialEq)]
-pub struct MapCircleCenterBaseProps {
-    pub title: String,
-    pub lat: String, pub lon: String, pub center: String,
-    pub point: String, pub calc: String,
-}
+set_lang!(_parameter, "同一距離にある地点", "Points at the Same Distance");
+set_lang!(_result, "計算結果", "Results");
+set_lang!(_lat, "緯度", "Latitude");
+set_lang!(_lon, "経度", "Longitude");
+set_lang!(_centre, "中心地点", "Centre Point");
+set_lang!(_point, "地点", "Point");
+set_lang!(_calc, "計算", "Calc");
+set_lang!(_mean, "平均", "Mean");
+set_lang!(_std, "標準偏差", "Standard Deviation");
+set_lang!(_dist, "中心点からの距離 (m)", "Distance from Centre Point (m)");
 
-#[function_component(MapCircleCenterBase)]
-pub fn map_circle_center_base(props: &MapCircleCenterBaseProps) -> Html {
+#[function_component(MapCircleCenter)]
+pub fn map_circle_center() -> Html {
+    let lang = match parse_query(use_location().unwrap().query_str()).1 {
+        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
+    };
     let lat_1 = use_state(|| 34.4706978.to_string());
     let lon_1 = use_state(|| 136.6937732.to_string());
     let lat_2 = use_state(|| 33.8405858.to_string());
@@ -51,6 +63,8 @@ pub fn map_circle_center_base(props: &MapCircleCenterBaseProps) -> Html {
     let lon_3 = use_state(|| 134.8499204.to_string());
     let lat_c = use_state(|| "0".to_string());
     let lon_c = use_state(|| "0".to_string());
+    let mean = use_state(|| "0".to_string());
+    let std = use_state(|| "0".to_string());
 
     let onclick = {
         let lat_1 = lat_1.clone();
@@ -61,6 +75,8 @@ pub fn map_circle_center_base(props: &MapCircleCenterBaseProps) -> Html {
         let lon_3 = lon_3.clone();
         let lat_c = lat_c.clone();
         let lon_c = lon_c.clone();
+        let mean = mean.clone();
+        let std = std.clone();
         Callback::from(move |e: MouseEvent| {
             e.prevent_default();
             let lat_1 = parse_state!(lat_1, f64);
@@ -76,44 +92,86 @@ pub fn map_circle_center_base(props: &MapCircleCenterBaseProps) -> Html {
                 Ok((center, _)) => center,
                 Err(_) => return,
             };
+            let d0 = match center.direction_plane(p0) { Ok((d0, _)) => d0, Err(_) => return, };
+            let d1 = match center.direction_plane(p1) { Ok((d1, _)) => d1, Err(_) => return, };
+            let d2 = match center.direction_plane(p2) { Ok((d2, _)) => d2, Err(_) => return, };
+            let m = (d0 + d1 + d2) / 3.0;
+            let s = (((d0-m)*(d0-m) + (d1-m)*(d1-m) + (d2-m)*(d2-m)) / 3.0).sqrt();
             lat_c.set(center.lat().deg().to_string());
             lon_c.set(center.lon().deg().to_string());
+            mean.set(m.to_string());
+            std.set(s.to_string());
         })
     };
 
     html! {
-        <main class="container-fluid mt-2">
-        <table class="table">
+        <>
+        <Header />
+        <BreadCrumb />
+        <main class="container mt-2">
+        <Title title={url::map_circle_center(DataMode::Name(lang))} lead={url::map_circle_center(DataMode::Dscr(lang))} />
+        <div class="row justify-content-md-center">
+        <div class={class_core("")}>
+        <table class="table align-middle">
+            <thead>
+                <tr><th scope="col" colspan="3">{_parameter(lang)}</th></tr>
+            </thead>
             <tbody>
                 <tr>
-                    <th scope="col">{"#"}</th>
-                    <th scope="col">{props.lat.clone()}</th>
-                    <th scope="col">{props.lon.clone()}</th>
+                    <th scope="col" style="width: 20%"></th>
+                    <th scope="col" style="width: 40%">{_lat(lang)}</th>
+                    <th scope="col" style="width: 40%">{_lon(lang)}</th>
                 </tr>
                 <MapCircleCenterForm
-                    point={props.point.clone()} id="1" lat={lat_1.clone()} lon={lon_1.clone()}
+                    point={_point(lang)} id="1" lat={lat_1.clone()} lon={lon_1.clone()}
                     onchange_lat={onchange_form(lat_1.clone())} onchange_lon={onchange_form(lon_1.clone())}
                 />
                 <MapCircleCenterForm
-                    point={props.point.clone()} id="2" lat={lat_2.clone()} lon={lon_2.clone()}
+                    point={_point(lang)} id="2" lat={lat_2.clone()} lon={lon_2.clone()}
                     onchange_lat={onchange_form(lat_2.clone())} onchange_lon={onchange_form(lon_2.clone())}
                 />
                 <MapCircleCenterForm
-                    point={props.point.clone()} id="3" lat={lat_3.clone()} lon={lon_3.clone()}
+                    point={_point(lang)} id="3" lat={lat_3.clone()} lon={lon_3.clone()}
                     onchange_lat={onchange_form(lat_3.clone())} onchange_lon={onchange_form(lon_3.clone())}
                 />
+                <tr><td colspan="3">
+                    <div class="d-grid gap-2">
+                        <button type="submit" onclick={onclick} class="btn btn-primary">{_calc(lang)}</button>
+                    </div>
+                </td></tr>
+            </tbody>
+        </table>
+        <table class="table align-middle mt-5">
+            <thead>
+                <tr><th scope="col" colspan="3">{_result(lang)}</th></tr>
+            </thead>
+            <tbody>
                 <tr>
-                    <td>{props.center.clone()}</td>
-                    <td><input type="text" value={(*lat_c).clone()} class="form-control" id="lat_c" /></td>
-                    <td><input type="text" value={(*lon_c).clone()} class="form-control" id="lon_c" /></td>
+                    <th scope="col"></th>
+                    <th scope="col">{_lat(lang)}</th>
+                    <th scope="col">{_lon(lang)}</th>
                 </tr>
                 <tr>
-                    <td>{"#"}</td>
-                    <td>{"#"}</td>
-                    <td><button type="submit" onclick={onclick} class="btn btn-primary">{props.calc.clone()}</button></td>
+                    <th style="width: 20%" scope="row">{_centre(lang)}</th>
+                    <td style="width: 40%"><input type="text" value={(*lat_c).clone()} class="form-control" id="lat_c" /></td>
+                    <td style="width: 40%"><input type="text" value={(*lon_c).clone()} class="form-control" id="lon_c" /></td>
+                </tr>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">{_mean(lang)}</th>
+                    <th scope="col">{_std(lang)}</th>
+                </tr>
+                <tr>
+                    <th scope="row">{_dist(lang)}</th>
+                    <td><input type="text" value={(*mean).clone()} class="form-control" id="mean" /></td>
+                    <td><input type="text" value={(*std).clone()} class="form-control" id="std" /></td>
                 </tr>
             </tbody>
         </table>
+        </div>
+        </div>
         </main>
+        <Footer />
+        </>
     }
 }

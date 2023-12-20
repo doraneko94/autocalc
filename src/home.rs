@@ -1,139 +1,203 @@
-pub mod ja;
-pub mod en;
-
 use yew::prelude::*;
+use yew_router::prelude::*;
 
-use crate::url::{Lang, Url};
+use crate::breadcrumb::BreadCrumb;
+use crate::footer::Footer;
+use crate::header::Header;
+use crate::layout::class_home;
+use crate::router::parse_query;
+use crate::url::{self, DataMode, Lang};
 
-#[derive(Properties, PartialEq, Clone)]
-pub struct MenuItemProps {
-    pub url: String,
-    pub name: String,
+#[derive(Properties, PartialEq)]
+pub struct HomeTableProps {
+    pub home: (String, String),
+    pub pages: Vec<(String, String)>,
     pub lang: Lang,
 }
 
-#[function_component(MenuItem)]
-pub fn menu_item(props: &MenuItemProps) -> Html {
+#[function_component(HomeTable)]
+pub fn home_table(props: &HomeTableProps) -> Html {
     html! {
-        <a href={props.url.to_url(props.lang)}>{&props.name}</a>
-    }
-}
-
-#[derive(Properties, PartialEq, Clone)]
-pub struct MenuProps {
-    pub title: String,
-    pub props_list: Vec<MenuItemProps>,
-}
-
-impl MenuProps {
-    pub fn new(title: &str, lang: Lang, contents: &[(&str, &str)]) -> Self {
-        let props_list = contents.iter().map(|(url, s)| {
-            MenuItemProps { url: url.to_string(), name: s.to_string(), lang }
-        }).collect();
-        Self { title: title.to_string(), props_list }
-    }
-}
-
-#[function_component(Menu)]
-pub fn menu(props: &MenuProps) -> Html {
-    html! {
-        <table class="table table-bordered">
+        <table class="table table-bordered mb-2">
             <thead>
                 <tr>
-                    <th scope="col">{"#"}</th>
-                    <th scope="col">{props.title.clone()}</th>
+                    <th scope="col" style="width:8%">{"#"}</th>
+                    <th scope="col" style="width:92%">{&props.home.0}</th>
                 </tr>
             </thead>
             <tbody>
                 {
-                    props.props_list.iter().enumerate().map(|(i, props)| html! {
+                    props.pages.iter().enumerate().map(|(i, (name, url))| html! {
                         <tr>
                             <th scope="row">{i+1}</th>
-                            <td><MenuItem 
-                            url={props.url.clone()}
-                            name={props.name.clone()}
-                            lang={props.lang}/></td>
+                            <td><a href={url.clone()} class="text-reset">{name.clone()}</a></td>
                         </tr>
                     }).collect::<Html>()
                 }
+                <tr><td colspan="2"><a href={props.home.1.clone()}>{
+                    match props.lang {
+                        Lang::Ja => "もっと見る",
+                        Lang::En => "See more"
+                    }
+                }</a></td></tr>
             </tbody>
         </table>
     }
 }
 
 #[derive(Properties, PartialEq)]
-pub struct MainHomeBaseProps {
-    pub props_list_1: Vec<MenuProps>,
-    pub props_list_2: Vec<MenuProps>,
-    pub props_list_3: Vec<MenuProps>,
+pub struct HomeCardProps {
+    pub name: String,
+    pub dscr: String,
+    pub url: String,
+    pub lang: Lang,
 }
 
-impl MainHomeBaseProps {
-    pub fn new(props_list_1: &[MenuProps], props_list_2: &[MenuProps], props_list_3: &[MenuProps]) -> Self {
-        Self {
-            props_list_1: props_list_1.to_vec(),
-            props_list_2: props_list_2.to_vec(),
-            props_list_3: props_list_3.to_vec()
-        }
+#[function_component(HomeCard)]
+pub fn home_card(props: &HomeCardProps) -> Html {
+    html! {
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title"><u>{&props.name}</u></h5>
+                <p class="card-text text-start">{&props.dscr}</p>
+                <a href={props.url.clone()} class="btn btn-primary">{
+                    match props.lang {
+                        Lang::Ja => "使ってみる",
+                        Lang::En => "Try"
+                    }
+                }</a>
+            </div>
+        </div>
     }
 }
 
-#[function_component(MainHomeBase)]
-pub fn main_home_base(props: &MainHomeBaseProps) -> Html {
+pub fn make_table_page(f: fn(DataMode) -> String, lang: Lang) -> (String, String) {
+    (f(DataMode::Name(lang)), f(DataMode::Url(lang)))
+}
+
+pub fn make_table_pages(values: &[fn(DataMode) -> String], lang: Lang) -> Vec<(String, String)> {
+    values.iter().map(|f| {
+        make_table_page(*f, lang)
+    }).collect::<Vec<(String, String)>>()
+}
+
+pub fn make_card_pages(values: &[fn(DataMode) -> String], lang: Lang) -> Vec<(String, String, String)> {
+    values.iter().map(|f| {
+        (f(DataMode::Name(lang)), f(DataMode::Dscr(lang)), f(DataMode::Url(lang)))
+    }).collect::<Vec<(String, String, String)>>()
+}
+
+pub fn split_three_col<T: Sized + Clone>(pages: &[T]) -> (Vec<T>, Vec<T>, Vec<T>) {
+    let size = pages.len();
+    let n1 = size / 3 + if size % 3 > 0 { 1 } else { 0 };
+    let n2 = n1 + size / 3 + if size % 3 == 2 { 1 } else { 0 };
+    (pages[..n1].to_vec(), pages[n1..n2].to_vec(), pages[n2..].to_vec())
+}
+
+#[function_component(MainHome)]
+pub fn main_home() -> Html {
+    let lang = match parse_query(use_location().unwrap().query_str()).1 {
+        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
+    };
+    let homes = vec![
+        url::unit, url::map, url::stat
+    ];
+    let pages = vec![
+        vec![url::unit_length, url::unit_mass],
+        vec![url::map_circle_center],
+        vec![url::stat_roc_auc_ci],
+    ];
+    let (h0, h1, h2) = split_three_col(&homes);
+    let (p0, p1, p2) = split_three_col(&pages);
+    
+    
     html! {
+        <>
+        <Header />
         <main class="container-fluid mt-2">
             <div class="container text-center">
                 <div class="row align-items-start">
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div class={class_home("")}>
                         {
-                            props.props_list_1.iter().map(|props| html! {
-                                <Menu title={props.title.clone()} props_list={props.props_list.clone()} />
+                            h0.iter().zip(p0.iter()).map(|(f_home, f_pages)| {
+                                let home = make_table_page(*f_home, lang);
+                                let pages = make_table_pages(f_pages, lang);
+                                html! { <><HomeTable {home} {pages} {lang} /></>}
                             }).collect::<Html>()
                         }
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div class={class_home("")}>
                         {
-                            props.props_list_2.iter().map(|props| html! {
-                                <Menu title={props.title.clone()} props_list={props.props_list.clone()} />
+                            h1.iter().zip(p1.iter()).map(|(f_home, f_pages)| {
+                                let home = make_table_page(*f_home, lang);
+                                let pages = make_table_pages(f_pages, lang);
+                                html! { <><HomeTable {home} {pages} {lang} /></>}
                             }).collect::<Html>()
                         }
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div class={class_home("")}>
                         {
-                            props.props_list_3.iter().map(|props| html! {
-                                <Menu title={props.title.clone()} props_list={props.props_list.clone()} />
+                            h2.iter().zip(p2.iter()).map(|(f_home, f_pages)| {
+                                let home = make_table_page(*f_home, lang);
+                                let pages = make_table_pages(f_pages, lang);
+                                html! { <><HomeTable {home} {pages} {lang} /></>}
                             }).collect::<Html>()
                         }
                     </div>
                 </div>
             </div>
         </main>
+        <Footer />
+        </>
     }
 }
 
-#[macro_export]
-macro_rules! main_home {
-    () => {
-        #[function_component(MainHome)]
-        pub fn main_home() -> Html {
-            let props_list_1 = vec![
-                MenuProps::new(UNIT_NAME, lang, &[
-                    path_and_name(UNIT_LENGTH, lang),
-                    path_and_name(UNIT_MASS, lang)
-                ]),
-            ];
-            let props_list_2 = vec![
-                MenuProps::new(MAP_NAME, lang, &[
-                    path_and_name(MAP_CIRCLE_CENTER, lang),
-                ]),
-            ];
-            let props_list_3 = vec![];
-            html! {
-                <>
-                <Header />
-                <MainHomeBase {props_list_1} {props_list_2} {props_list_3} />
-                </>
-            }
-        }
-    };
+#[derive(Properties, PartialEq)]
+pub struct HomeBaseProps {
+    pub pages: Vec<(String, String, String)>,
+    pub lang: Lang,
+}
+
+#[function_component(HomeBase)]
+pub fn home_base(props: &HomeBaseProps) -> Html {
+    let size = props.pages.len();
+    let n1 = size / 3 + if size % 3 > 0 { 1 } else { 0 };
+    let n2 = n1 + size / 3 + if size % 3 == 2 { 1 } else { 0 };
+    let p0 = props.pages[..n1].to_vec();
+    let p1 = props.pages[n1..n2].to_vec();
+    let p2 = props.pages[n2..].to_vec();
+    html! {
+        <>
+        <Header />
+        <BreadCrumb />
+        <main class="container-fluid mt-2">
+            <div class="container text-center">
+                <div class="row align-items-start">
+                    <div class={class_home("")}>
+                        {
+                            p0.iter().map(|(n, d, u)| html! {
+                                <HomeCard name={n.clone()} dscr={d.clone()} url={u.clone()} lang={props.lang} />
+                            }).collect::<Html>()
+                        }
+                    </div>
+                    <div class={class_home("")}>
+                        {
+                            p1.iter().map(|(n, d, u)| html! {
+                                <HomeCard name={n.clone()} dscr={d.clone()} url={u.clone()} lang={props.lang} />
+                            }).collect::<Html>()
+                        }
+                    </div>
+                    <div class={class_home("")}>
+                        {
+                            p2.iter().map(|(n, d, u)| html! {
+                                <HomeCard name={n.clone()} dscr={d.clone()} url={u.clone()} lang={props.lang} />
+                            }).collect::<Html>()
+                        }
+                    </div>
+                </div>
+            </div>
+        </main>
+        <Footer />
+        </>
+    }
 }
