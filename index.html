@@ -20,7 +20,7 @@
     <meta property="og:description" content="AutoCalc enables you to perform advanced and fast calculations online for free. We support a wide range of calculations, from useful everyday life tasks, such as converting units, to statistical functions that can be used in academic papers.">
     <meta property="og:url" content="https://autocalc.ushitora.net/">
     <meta property="og:site_name" content="AutoCalc - Fast and High-Performance Online Calculation Apps">
-    <meta property="og:image" data-trunk="" content="/img/ogg.png">
+    <meta property="og:image" content="/img/ogp.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@doraneko_b1f">
 
@@ -30,37 +30,10 @@
     <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5906959653105632" crossorigin="anonymous"></script>
     <title>AutoCalc - Fast and High-Performance Online Calculation Apps</title>
 
-<link rel="preload" href="/autocalc-b3d042bbb989e2d0_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="/autocalc-b3d042bbb989e2d0.js"></head>
+<link rel="preload" href="/autocalc-4aae4308b39d20c_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/autocalc-4aae4308b39d20c.js"></head>
 
 <body class="d-flex flex-column h-100">
 
 
-<script type="module">import init from '/autocalc-b3d042bbb989e2d0.js';init('/autocalc-b3d042bbb989e2d0_bg.wasm');</script><script>(function () {
-    var protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    var url = protocol + '//' + window.location.host + '/_trunk/ws';
-    var poll_interval = 5000;
-    var reload_upon_connect = () => {
-        window.setTimeout(
-            () => {
-                // when we successfully reconnect, we'll force a
-                // reload (since we presumably lost connection to
-                // trunk due to it being killed, so it will have
-                // rebuilt on restart)
-                var ws = new WebSocket(url);
-                ws.onopen = () => window.location.reload();
-                ws.onclose = reload_upon_connect;
-            },
-            poll_interval);
-    };
-
-    var ws = new WebSocket(url);
-    ws.onmessage = (ev) => {
-        const msg = JSON.parse(ev.data);
-        if (msg.reload) {
-            window.location.reload();
-        }
-    };
-    ws.onclose = reload_upon_connect;
-})()
-</script></body></html>
+<script type="module">import init from '/autocalc-4aae4308b39d20c.js';init('/autocalc-4aae4308b39d20c_bg.wasm');</script></body></html>
