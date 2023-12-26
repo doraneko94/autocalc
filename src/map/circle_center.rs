@@ -150,7 +150,7 @@ pub fn map_circle_center() -> Html {
         <div class="d-sm-none">
         <table class="table align-middle">
             <thead>
-                <tr><th scope="col" colspan="3">{_parameter(lang)}</th></tr>
+                <tr><th scope="col" colspan="2">{_parameter(lang)}</th></tr>
             </thead>
             <tbody>
                 <tr><th scope="col" colspan="2" class="text-center">{_point(lang) + " 1"}</th></tr>
