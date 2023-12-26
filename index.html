@@ -26,14 +26,47 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="icon" href="/favicon-a71abdb2a6ef6173.ico">
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5906959653105632" crossorigin="anonymous"></script>
+    
+    <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" id="displaytext">
+    function displayText(id, text)
+    {
+        var elem = document.getElementById(id);
+        elem.textContent = text;
+        MathJax.typesetPromise();
+        console.log("Done");
+    }
+    </script>
+    <script type="text/javascript" id="updateMathjax">
+    function updateMathjax(id, text)
+    {
+        var elem = document.getElementById(id);
+        MathJax.typesetClear([elem]);
+        elem.textContent = text;
+        MathJax.typesetPromise([elem]);
+    }
+    </script>
+    <script type="text/javascript" id="typesetpromise">
+    function typesetPromise()
+    {
+        MathJax.typesetPromise();
+    }
+    </script>
+    <script type="text/javascript" id="typesetclear">
+        function typesetClear()
+        {
+            MathJax.typesetClear();
+        }
+        </script>
     <title>AutoCalc - Fast and High-Performance Online Calculation Apps</title>
 
-<link rel="preload" href="/autocalc-4aae4308b39d20c_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-<link rel="modulepreload" href="/autocalc-4aae4308b39d20c.js"></head>
+<link rel="preload" href="/autocalc-23696e95b6f5d0ce_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
+<link rel="modulepreload" href="/autocalc-23696e95b6f5d0ce.js"></head>
 
 <body class="d-flex flex-column h-100">
 
 
-<script type="module">import init from '/autocalc-4aae4308b39d20c.js';init('/autocalc-4aae4308b39d20c_bg.wasm');</script></body></html>
+<script type="module">import init from '/autocalc-23696e95b6f5d0ce.js';init('/autocalc-23696e95b6f5d0ce_bg.wasm');</script></body></html>
