@@ -872,7 +872,7 @@ async function __wbg_init(input) {
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
-        input = new URL('autocalc-64fafbccaf059961_bg.wasm', import.meta.url);
+        input = new URL('autocalc-9c8427e0fe32db1_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 
