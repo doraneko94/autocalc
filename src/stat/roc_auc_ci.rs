@@ -2,32 +2,18 @@ use statrs::distribution::{Normal, ContinuousCDF};
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::announce::{InvalidInput, Reference};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
 use crate::router::parse_query;
-use crate::title::Title;
+use crate::title::{Thumbnail, Title};
 use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
 
-#[derive(Properties, PartialEq)]
-pub struct StatRocAucCiBaseProps {
-    pub title: String,
-    pub lead: String,
-    pub parameter: String,
-    pub auc: String,
-    pub pos: String,
-    pub neg: String,
-    pub ci: String,
-    pub calc: String,
-    pub result: String,
-    pub lower: String,
-    pub upper: String,
-}
-
-set_lang!(_parameter, "AUCとサンプル数を入力", "");
+set_lang!(_parameter, "AUCとサンプル数を入力", "Enter AUC and Number of Samples");
 set_lang!(_auc, "ROC-AUC", "ROC-AUC");
 set_lang!(_pos, "陽性サンプル数", "Number of Positive samples");
 set_lang!(_neg, "陰性サンプル数", "Number of Negative samples");
@@ -87,6 +73,9 @@ pub fn stat_roc_auc_ci() -> Html {
         <BreadCrumb />
         <main class="container mt-2">
             <Title title={url::stat_roc_auc_ci(DataMode::Name(lang))} lead={url::stat_roc_auc_ci(DataMode::Dscr(lang))} />
+            <Thumbnail img={"/img/roc_auc.webp"} />
+            <InvalidInput />
+            <Reference url_ja="https://ushitora.net/archives/800" url_en="https://ushitora.net/en-GB/archives/4530" />
             <div class="row justify-content-md-center">
             <div class={class_core("")}>
             <table class="table align-middle">
@@ -95,11 +84,11 @@ pub fn stat_roc_auc_ci() -> Html {
             </thead>
             <tbody>
                 <tr>
-                    <td style="width: 60%">{_auc(lang)}</td>
-                    <td style="width: 30%">
+                    <td style="width: 50%">{_auc(lang)}</td>
+                    <td style="width: 45%">
                         <input type="number" step=0.01 value={(*auc).clone()} onchange={onchange_form(auc.clone())} class="form-control" id="auc" />
                     </td>
-                    <td style="width: 10%"></td>
+                    <td style="width: 5%"></td>
                 </tr>
                 <tr>
                     <td>{_pos(lang)}</td>
@@ -129,18 +118,18 @@ pub fn stat_roc_auc_ci() -> Html {
             </thead>
             <tbody>
                 <tr>
-                    <td style="width: 60%">{_lower(lang)}</td>
-                    <td style="width: 30%">
+                    <td style="width: 50%">{_lower(lang)}</td>
+                    <td style="width: 45%">
                         <input type="text" value={(*lower).clone()} class="form-control" id="lower" />
                     </td>
-                    <td style="width: 10%"></td>
+                    <td style="width: 5%"></td>
                 </tr>
                 <tr>
-                    <td style="width: 60%">{_upper(lang)}</td>
-                    <td style="width: 30%">
+                    <td style="width: 50%">{_upper(lang)}</td>
+                    <td style="width: 45%">
                         <input type="text" value={(*upper).clone()} class="form-control" id="upper" />
                     </td>
-                    <td style="width: 10%"></td>
+                    <td style="width: 5%"></td>
                 </tr>
             </tbody>
             </table>

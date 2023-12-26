@@ -1,12 +1,18 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::electronic::ElectronicHome;
+use crate::electronic::delta_y::ElectronicDeltaY;
 use crate::home::MainHome;
 use crate::map::MapHome;
 use crate::map::circle_center::MapCircleCenter;
+use crate::math::MathHome;
+use crate::math::diffeq_linear2::MathDiffeqLinear2;
+use crate::math::diffeq_linear2_frac::MathDiffeqLinear2Frac;
 use crate::notfound::NotFound;
 use crate::privacy::Privacy;
 use crate::stat::StatHome;
+use crate::stat::error_ellipse::StatErrorEllipse;
 use crate::stat::roc_auc_ci::StatRocAucCi;
 use crate::unit::UnitHome;
 use crate::unit::length::UnitLength;
@@ -85,11 +91,17 @@ pub fn switch_page() -> Html {
 
     switch!(home, path, MainHome);
     switch!(unit, path, UnitHome);
+    switch!(electronic, path, ElectronicHome);
+    switch!(electronic_delta_y, path, ElectronicDeltaY);
     switch!(unit_length, path, UnitLength);
     switch!(unit_mass, path, UnitMass);
     switch!(map, path, MapHome);
     switch!(map_circle_center, path, MapCircleCenter);
+    switch!(math, path, MathHome);
+    switch!(math_diffeq_linear2, path, MathDiffeqLinear2);
+    switch!(math_diffeq_linear2_frac, path, MathDiffeqLinear2Frac);
     switch!(stat, path, StatHome);
+    switch!(stat_error_ellipse, path, StatErrorEllipse);
     switch!(stat_roc_auc_ci, path, StatRocAucCi);
     switch!(privacy, path, Privacy);
     html! { <><NotFound /></> }

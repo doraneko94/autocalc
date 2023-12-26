@@ -3,6 +3,7 @@ use yew::prelude::*;
 use yew_router::prelude::*;
 
 use crate::{parse_state, set_lang};
+use crate::announce::InvalidInput;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
@@ -134,6 +135,7 @@ pub fn unit_mass() -> Html {
         <BreadCrumb />
         <main class="container mt-2">
         <Title title={url::unit_mass(DataMode::Name(lang))} lead={url::unit_mass(DataMode::Dscr(lang))} />
+        <InvalidInput />
         <div class="row justify-content-md-center">
         <div class={class_core("accordion")} id="accordionUnits">
             <div class="accordion-item">

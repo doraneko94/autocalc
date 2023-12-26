@@ -4,7 +4,7 @@ use yew_router::prelude::*;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
-use crate::layout::class_home;
+use crate::layout::{class_home, class_text};
 use crate::router::parse_query;
 use crate::url::{self, DataMode, Lang};
 
@@ -100,12 +100,14 @@ pub fn main_home() -> Html {
         Some(Lang::Ja) => Lang::Ja, _ => Lang::En
     };
     let homes = vec![
-        url::unit, url::map, url::stat
+        url::unit, url::map, url::math, url::stat, url::electronic
     ];
     let pages = vec![
         vec![url::unit_length, url::unit_mass],
         vec![url::map_circle_center],
-        vec![url::stat_roc_auc_ci],
+        vec![url::math_diffeq_linear2, url::math_diffeq_linear2_frac],
+        vec![url::stat_roc_auc_ci, url::stat_error_ellipse],
+        vec![url::electronic_delta_y]
     ];
     let (h0, h1, h2) = split_three_col(&homes);
     let (p0, p1, p2) = split_three_col(&pages);
@@ -116,6 +118,16 @@ pub fn main_home() -> Html {
         <Header />
         <main class="container-fluid mt-2">
             <div class="container text-center">
+                <div class="row justify-content-md-center mb-2">
+                    <div class={class_text("")}>
+                        {
+                            match lang {
+                                Lang::Ja => { html! { <><img src="/img/banner_ja.png" style="width:100%" /></> } }
+                                Lang::En => { html! { <><img src="/img/banner_en.png" style="width:100%" /></> } }
+                            }
+                        }
+                    </div>
+                </div>
                 <div class="row align-items-start">
                     <div class={class_home("")}>
                         {

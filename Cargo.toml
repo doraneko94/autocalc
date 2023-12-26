@@ -7,7 +7,11 @@ edition = "2021"
 
 [dependencies]
 coordinate = { path = "../coordinate" }
+diffeq = { path = "../diffeq" }
+matrix = { path = "../matrix" }
 statrs = "0.16.0"
+trigo = { path = "../trigo" }
+wasm-bindgen = "0.2.89"
 web-sys = "0.3.66"
 yew = { version = "0.21.0", features = ["csr"] }
 yew-router = "0.18.0"

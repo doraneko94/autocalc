@@ -3,13 +3,14 @@ use coordinate::point::LatLon;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::announce::{InCaseDistortion, InvalidInput};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
 use crate::router::parse_query;
-use crate::title::Title;
+use crate::title::{Thumbnail, Title};
 use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
 
@@ -48,7 +49,7 @@ set_lang!(_point, "地点", "Point");
 set_lang!(_calc, "計算", "Calc");
 set_lang!(_mean, "平均", "Mean");
 set_lang!(_std, "標準偏差", "Standard Deviation");
-set_lang!(_dist, "中心点からの距離 (m)", "Distance from Centre Point (m)");
+set_lang!(_dist, "中心点からの距離", "Distance from Centre Point");
 
 #[function_component(MapCircleCenter)]
 pub fn map_circle_center() -> Html {
@@ -110,8 +111,12 @@ pub fn map_circle_center() -> Html {
         <BreadCrumb />
         <main class="container mt-2">
         <Title title={url::map_circle_center(DataMode::Name(lang))} lead={url::map_circle_center(DataMode::Dscr(lang))} />
+        <Thumbnail img={"/img/circle_centre.png"} />
+        <InvalidInput />
+        <InCaseDistortion />
         <div class="row justify-content-md-center">
         <div class={class_core("")}>
+        <div class="d-none d-sm-block">
         <table class="table align-middle">
             <thead>
                 <tr><th scope="col" colspan="3">{_parameter(lang)}</th></tr>
@@ -136,11 +141,72 @@ pub fn map_circle_center() -> Html {
                 />
                 <tr><td colspan="3">
                     <div class="d-grid gap-2">
+                        <button type="submit" onclick={onclick.clone()} class="btn btn-primary">{_calc(lang)}</button>
+                    </div>
+                </td></tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="d-sm-none">
+        <table class="table align-middle">
+            <thead>
+                <tr><th scope="col" colspan="3">{_parameter(lang)}</th></tr>
+            </thead>
+            <tbody>
+                <tr><th scope="col" colspan="2" class="text-center">{_point(lang) + " 1"}</th></tr>
+                <tr>
+                    <th scope="row">{_lat(lang)}</th>
+                    <td>
+                        <input type="number" step=0.0000001 value={(*lat_1).clone()}
+                        onchange={onchange_form(lat_1.clone())} class="form-control" id={"lat_1"} />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">{_lon(lang)}</th>
+                    <td>
+                        <input type="number" step=0.0000001 value={(*lon_1).clone()}
+                        onchange={onchange_form(lon_1.clone())} class="form-control" id={"lon_1"} />
+                    </td>
+                </tr>
+                <tr><th scope="col" colspan="2" class="text-center">{_point(lang) + " 2"}</th></tr>
+                <tr>
+                    <th scope="row">{_lat(lang)}</th>
+                    <td>
+                        <input type="number" step=0.0000001 value={(*lat_2).clone()}
+                        onchange={onchange_form(lat_2.clone())} class="form-control" id={"lat_2"} />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">{_lon(lang)}</th>
+                    <td>
+                        <input type="number" step=0.0000001 value={(*lon_2).clone()}
+                        onchange={onchange_form(lon_2.clone())} class="form-control" id={"lon_2"} />
+                    </td>
+                </tr>
+                <tr><th scope="col" colspan="2" class="text-center">{_point(lang) + " 3"}</th></tr>
+                <tr>
+                    <th scope="row">{_lat(lang)}</th>
+                    <td>
+                        <input type="number" step=0.0000001 value={(*lat_3).clone()}
+                        onchange={onchange_form(lat_3.clone())} class="form-control" id={"lat_3"} />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">{_lon(lang)}</th>
+                    <td>
+                        <input type="number" step=0.0000001 value={(*lon_3).clone()}
+                        onchange={onchange_form(lon_3.clone())} class="form-control" id={"lon_3"} />
+                    </td>
+                </tr>
+                <tr><td colspan="2">
+                    <div class="d-grid gap-2">
                         <button type="submit" onclick={onclick} class="btn btn-primary">{_calc(lang)}</button>
                     </div>
                 </td></tr>
             </tbody>
         </table>
+        </div>
+        <div class="d-none d-sm-block">
         <table class="table align-middle mt-5">
             <thead>
                 <tr><th scope="col" colspan="3">{_result(lang)}</th></tr>
@@ -148,26 +214,66 @@ pub fn map_circle_center() -> Html {
             <tbody>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">{_lat(lang)}</th>
-                    <th scope="col">{_lon(lang)}</th>
+                    <th scope="col" colspan="2">{_lat(lang)}</th>
+                    <th scope="col" colspan="2">{_lon(lang)}</th>
                 </tr>
                 <tr>
-                    <th style="width: 20%" scope="row">{_centre(lang)}</th>
-                    <td style="width: 40%"><input type="text" value={(*lat_c).clone()} class="form-control" id="lat_c" /></td>
-                    <td style="width: 40%"><input type="text" value={(*lon_c).clone()} class="form-control" id="lon_c" /></td>
+                    <th scope="row">{_centre(lang)}</th>
+                    <td colspan="2"><input type="text" value={(*lat_c).clone()} class="form-control" id="lat_c" /></td>
+                    <td colspan="2"><input type="text" value={(*lon_c).clone()} class="form-control" id="lon_c" /></td>
                 </tr>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">{_mean(lang)}</th>
-                    <th scope="col">{_std(lang)}</th>
+                    <th scope="col" colspan="2">{_mean(lang)}</th>
+                    <th scope="col" colspan="2">{_std(lang)}</th>
                 </tr>
                 <tr>
-                    <th scope="row">{_dist(lang)}</th>
-                    <td><input type="text" value={(*mean).clone()} class="form-control" id="mean" /></td>
-                    <td><input type="text" value={(*std).clone()} class="form-control" id="std" /></td>
+                    <th style="width: 20%"  scope="row">{_dist(lang)}</th>
+                    <td style="width: 35%" ><input type="text" value={(*mean).clone()} class="form-control" id="mean" /></td>
+                    <td style="width: 5%" >{"m"}</td>
+                    <td style="width: 35%" ><input type="text" value={(*std).clone()} class="form-control" id="std" /></td>
+                    <td style="width: 5%" >{"m"}</td>
                 </tr>
             </tbody>
         </table>
+        </div>
+        <div class="d-sm-none">
+        <table class="table align-middle mt-5">
+            <thead>
+                <tr><th scope="col" colspan="3">{_result(lang)}</th></tr>
+            </thead>
+            <tbody>
+                <tr><th scope="col" colspan="3" class="text-center">{_centre(lang)}</th></tr>
+                <tr>
+                    <th scope="row">{_lat(lang)}</th>
+                    <td colspan="2">
+                        <input type="text" value={(*lat_c).clone()} class="form-control" id="lat_c" />
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">{_lon(lang)}</th>
+                    <td colspan="2">
+                        <input type="text" value={(*lon_c).clone()} class="form-control" id="lon_c" />
+                    </td>
+                </tr>
+                <tr><th scope="col" colspan="3" class="text-center">{_dist(lang)}</th></tr>
+                <tr>
+                    <th scope="row">{_mean(lang)}</th>
+                    <td>
+                        <input type="text" value={(*mean).clone()} class="form-control" id="mean" />
+                    </td>
+                    <td>{"m"}</td>
+                </tr>
+                <tr>
+                    <th scope="row">{_std(lang)}</th>
+                    <td>
+                        <input type="text" value={(*std).clone()} class="form-control" id="std" />
+                    </td>
+                    <td>{"m"}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
         </div>
         </div>
         </main>

@@ -29,9 +29,42 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="icon" data-trunk href="/favicon.ico">
+    <link data-trunk rel="copy-dir" href="/img"/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5906959653105632"
      crossorigin="anonymous"></script>
+    
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" id="displaytext">
+    function displayText(id, text)
+    {
+        var elem = document.getElementById(id);
+        elem.textContent = text;
+        MathJax.typesetPromise();
+        console.log("Done");
+    }
+    </script>
+    <script type="text/javascript" id="updateMathjax">
+    function updateMathjax(id, text)
+    {
+        var elem = document.getElementById(id);
+        MathJax.typesetClear([elem]);
+        elem.textContent = text;
+        MathJax.typesetPromise([elem]);
+    }
+    </script>
+    <script type="text/javascript" id="typesetpromise">
+    function typesetPromise()
+    {
+        MathJax.typesetPromise();
+    }
+    </script>
+    <script type="text/javascript" id="typesetclear">
+        function typesetClear()
+        {
+            MathJax.typesetClear();
+        }
+        </script>
     <title>AutoCalc - Fast and High-Performance Online Calculation Apps</title>
 </head>
 

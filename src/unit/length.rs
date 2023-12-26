@@ -2,6 +2,7 @@ use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::announce::InvalidInput;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
@@ -144,6 +145,7 @@ pub fn unit_base() -> Html {
         <BreadCrumb />
         <main class="container mt-2">
         <Title title={url::unit_length(DataMode::Name(lang))} lead={url::unit_length(DataMode::Dscr(lang))} />
+        <InvalidInput />
         <div class="row justify-content-md-center">
         <div class={class_core("accordion")} id="accordionUnits">
             <div class="accordion-item">

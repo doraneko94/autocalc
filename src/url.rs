@@ -37,6 +37,11 @@ macro_rules! data {
 }
 
 data!(home, "", "TOP", "TOP", "", "");
+data!(electronic, "electronic", "電子回路", "Electronic Circuit", "", "");
+data!(electronic_delta_y, "electronic/delta_y", "デルタ回路・スター回路を相互変換", "Mutual Conversion of Delta and Star Circuits.", 
+    "等価なデルタ回路とスター回路に含まれる抵抗値の値をリアルタイムに計算します。", 
+    "Calculate in real time the values of the resistances contained in equivalent Delta and Star circuits."
+);
 data!(map, "map", "地図", "Map", "", "");
 data!(
     map_circle_center, "map/circle_center",
@@ -44,7 +49,26 @@ data!(
     "３つの地点を設定し、それらから同じ距離にある地点の緯度経度を求めます。",
     "Set three field points and find the latitude/longitude of the points at the same distance from them."
 );
+data!(math, "math", "数学", "Mathematics", "", "");
+data!(
+    math_diffeq_linear2, "math/diffeq_linear2",
+    "線形微分方程式を解く（小数で出力）", "Solve linear differential equations (Output in decimals)", 
+    "同次線形微分方程式の係数を入力し、その一般解を出力します。出力式の係数は浮動小数点数で与えられます。", 
+    "Inputs the coefficients of a homogeneous linear differential equation and outputs its general solution. The coefficients of the output equation are given as floating-point numbers."
+);
+data!(
+    math_diffeq_linear2_frac, "math/diffeq_linear2_frac",
+    "線形微分方程式を解く（分数で出力）", "Solve linear differential equations (Output in fractions)", 
+    "同次線形微分方程式の係数を入力し、その一般解を出力します。出力式では根号・分数を小数に近似せず、そのまま出力します。", 
+    "Inputs the coefficients of a homogeneous linear differential equation and outputs its general solution. The output formula does not approximate root signs and fractions to decimals, but outputs them as they are."
+);
 data!(stat, "stat", "統計", "Statistics", "", "");
+data!(
+    stat_error_ellipse, "stat/error_ellipse",
+    "2次元正規分布の誤差楕円", "Error Ellipse of 2-D Normal Distribution",
+    "2次元正規分布の平均と共分散行列から、データのX%が散らばる領域（誤差楕円）の式を計算します。",
+    "From the mean and covariance matrices of a 2-D normal distribution, calculate an expression for the region over which X% of the data is scattered (error ellipse)."
+);
 data!(
     stat_roc_auc_ci, "stat/roc_auc_ci",
     "ROC曲線のAUCがとる信頼区間を計算", "Confidence interval of ROC-AUC",
@@ -85,9 +109,15 @@ macro_rules! path2name {
 pub fn path_to_name(path: &str, lang: Lang) -> String {
     let path = path.to_string();
     path2name!(home, path, lang);
+    path2name!(electronic, path, lang);
+    path2name!(electronic_delta_y, path, lang);
     path2name!(map, path, lang);
     path2name!(map_circle_center, path, lang);
+    path2name!(math, path, lang);
+    path2name!(math_diffeq_linear2, path, lang);
+    path2name!(math_diffeq_linear2_frac, path, lang);
     path2name!(stat, path, lang);
+    path2name!(stat_error_ellipse, path, lang);
     path2name!(stat_roc_auc_ci, path, lang);
     path2name!(unit, path, lang);
     path2name!(unit_length, path, lang);
