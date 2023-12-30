@@ -11,6 +11,7 @@ use crate::math::diffeq_linear2::MathDiffeqLinear2;
 use crate::math::diffeq_linear2_frac::MathDiffeqLinear2Frac;
 use crate::notfound::NotFound;
 use crate::privacy::Privacy;
+use crate::sport::golf_sg::SportGolfSg;
 use crate::stat::StatHome;
 use crate::stat::error_ellipse::StatErrorEllipse;
 use crate::stat::roc_auc_ci::StatRocAucCi;
@@ -100,6 +101,8 @@ pub fn switch_page() -> Html {
     switch!(math, path, MathHome);
     switch!(math_diffeq_linear2, path, MathDiffeqLinear2);
     switch!(math_diffeq_linear2_frac, path, MathDiffeqLinear2Frac);
+    switch!(sport, path, NotFound);
+    switch!(sport_golf_sg, path, SportGolfSg);
     switch!(stat, path, StatHome);
     switch!(stat_error_ellipse, path, StatErrorEllipse);
     switch!(stat_roc_auc_ci, path, StatRocAucCi);

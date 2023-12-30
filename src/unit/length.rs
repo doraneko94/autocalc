@@ -232,8 +232,8 @@ pub fn unit_base() -> Html {
 }
 
 const INCH: f32 = FEET / 12.0;
-const FEET: f32 = 0.3048;
-const YARD: f32 = FEET * 3.0;
+pub const FEET: f32 = 0.3048;
+pub const YARD: f32 = FEET * 3.0;
 const CHAIN: f32 = YARD * 22.0;
 const FURLONG: f32 = YARD * 220.0;
 const MILE: f32 = YARD * 1760.0;

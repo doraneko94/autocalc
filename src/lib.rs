@@ -10,6 +10,7 @@ pub mod math;
 pub mod notfound;
 pub mod privacy;
 pub mod router;
+pub mod sport;
 pub mod stat;
 pub mod title;
 pub mod unit;

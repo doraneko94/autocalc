@@ -100,14 +100,15 @@ pub fn main_home() -> Html {
         Some(Lang::Ja) => Lang::Ja, _ => Lang::En
     };
     let homes = vec![
-        url::unit, url::map, url::math, url::stat, url::electronic
+        url::unit, url::map, url::math, url::stat, url::electronic, url::sport
     ];
     let pages = vec![
         vec![url::unit_length, url::unit_mass],
         vec![url::map_circle_center],
         vec![url::math_diffeq_linear2, url::math_diffeq_linear2_frac],
         vec![url::stat_roc_auc_ci, url::stat_error_ellipse],
-        vec![url::electronic_delta_y]
+        vec![url::electronic_delta_y],
+        vec![url::sport_golf_sg]
     ];
     let (h0, h1, h2) = split_three_col(&homes);
     let (p0, p1, p2) = split_three_col(&pages);

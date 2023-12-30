@@ -62,6 +62,12 @@ data!(
     "同次線形微分方程式の係数を入力し、その一般解を出力します。出力式では根号・分数を小数に近似せず、そのまま出力します。", 
     "Inputs the coefficients of a homogeneous linear differential equation and outputs its general solution. The output formula does not approximate root signs and fractions to decimals, but outputs them as they are."
 );
+data!(sport, "sport", "スポーツ", "Sport", "", "");
+data!(
+    sport_golf_sg, "sport/golf_sg", "ゴルフ：稼いだ打数（SG）", "Golf: Stroke Gained",
+    "ストローク前後の球の位置と状況から、ストロークによって稼いだまたは失ったスコアを計算します。", 
+    "Calculates the score gained or lost by a stroke, based on the position and situation of the ball before and after the stroke."
+);
 data!(stat, "stat", "統計", "Statistics", "", "");
 data!(
     stat_error_ellipse, "stat/error_ellipse",
@@ -116,6 +122,8 @@ pub fn path_to_name(path: &str, lang: Lang) -> String {
     path2name!(math, path, lang);
     path2name!(math_diffeq_linear2, path, lang);
     path2name!(math_diffeq_linear2_frac, path, lang);
+    path2name!(sport, path, lang);
+    path2name!(sport_golf_sg, path, lang);
     path2name!(stat, path, lang);
     path2name!(stat_error_ellipse, path, lang);
     path2name!(stat_roc_auc_ci, path, lang);
