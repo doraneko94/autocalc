@@ -142,7 +142,7 @@ pub fn sport_golf_sg() -> Html {
                         </div>
                     </td>
                 </tr>
-                <tr><th scope="col" colspan="3" class="text-center">{_before(lang)}</th></tr>
+                <tr><th scope="col" colspan="3" class="text-center">{_after(lang)}</th></tr>
                 <tr>
                     <th scope="row">{_dist(lang)}</th>
                     <td>
