@@ -3,7 +3,8 @@ members = [
     ".",
     "coordinate",
     "diffeq",
-    "matrix"
+    "matrix",
+    "number_calc"
 ]
 
 [package]
