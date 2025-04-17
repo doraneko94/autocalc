@@ -1,7 +1,6 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
-// use autocalc::header::ja::Header;
-use autocalc::router::{MainRoute, switch_main};
+use autocalc::router::{Route, switch};
 
 fn main() {
     yew::Renderer::<App>::new().render();
@@ -11,7 +10,7 @@ fn main() {
 fn app() -> Html {
     html! {
         <BrowserRouter>
-            <Switch<MainRoute> render={switch_main} />
+            <Switch<Route> render={switch} />
         </BrowserRouter>
     }
 }

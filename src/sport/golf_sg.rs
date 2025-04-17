@@ -1,17 +1,15 @@
-use web_sys::HtmlSelectElement;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
-use crate::announce::{InCaseDistortion, InvalidInput};
+use crate::announce::InvalidInput;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
-use crate::router::parse_query;
-use crate::title::{Thumbnail, Title};
-use crate::url::{self, DataMode, Lang};
-use crate::unit::length::{FEET, YARD};
+use crate::router::{Lang, Route};
+use crate::title::Title;
+use crate::unit::length::YARD;
 use crate::utils::{onchange_form, onchange_select};
 
 set_lang!(_parameter, "ボールの移動", "Movement of the Ball");
@@ -32,10 +30,8 @@ set_lang!(_green, "グリーン", "Green");
 set_lang!(_calc, "計算", "Calc");
 
 #[function_component(SportGolfSg)]
-pub fn sport_golf_sg() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn sport_golf_sg(props: &HomeProps) -> Html {
+    let lang = props.lang;
     let state_before = use_state(|| 0_usize);
     let state_after = use_state(|| 1_usize);
     let dist_before = use_state(|| 500.to_string());
@@ -96,12 +92,12 @@ pub fn sport_golf_sg() -> Html {
 
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::SportGolfSg} {lang} />
+        <BreadCrumb route={Route::SportGolfSg} {lang} />
         <main class="container mt-2">
-        <Title title={url::sport_golf_sg(DataMode::Name(lang))} lead={url::sport_golf_sg(DataMode::Dscr(lang))} />
+        <Title route={Route::SportGolfSg} {lang} />
         //<Thumbnail img={"/img/circle_centre.png"} />
-        <InvalidInput />
+        <InvalidInput {lang} />
         <div class="row justify-content-md-center">
         <div class={class_core("")}>
         <table class="table align-middle">
@@ -245,7 +241,7 @@ pub fn sport_golf_sg() -> Html {
         </div>
         </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

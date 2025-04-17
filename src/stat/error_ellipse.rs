@@ -2,17 +2,16 @@ use matrix::definite::{Def, is_def};
 use statrs::distribution::{ChiSquared, ContinuousCDF};
 use trigo::angle::Angle;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
 use crate::announce::{InvalidInput, Reference};
-use crate::router::parse_query;
+use crate::router::{Lang, Route};
 use crate::title::{Thumbnail, Title};
-use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
 
 set_lang!(_parameter, "データの形状と誤差楕円の範囲", "Shape of Data and the Range of Error");
@@ -27,10 +26,9 @@ set_lang!(_minor, "短軸の長さ", "Length of Minor Axis");
 set_lang!(_angle, "楕円の傾き角", "Elliptical Tilt Angle");
 
 #[function_component(StatErrorEllipse)]
-pub fn stat_error_ellipse() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn stat_error_ellipse(props: &HomeProps) -> Html {
+    let lang = props.lang;
+
     let mx = use_state(|| 8.to_string());
     let my = use_state(|| 12.to_string());
     let sx = use_state(|| 16.to_string());
@@ -74,13 +72,13 @@ pub fn stat_error_ellipse() -> Html {
 
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::StatErrorEllipse} {lang} />
+        <BreadCrumb route={Route::StatErrorEllipse} {lang} />
         <main class="container mt-2">
-            <Title title={url::stat_error_ellipse(DataMode::Name(lang))} lead={url::stat_error_ellipse(DataMode::Dscr(lang))} />
+            <Title route={Route::StatErrorEllipse} {lang} />
             <Thumbnail img={"/img/ellipse.webp"} />
-            <InvalidInput />
-            <Reference url_ja={"https://ushitora.net/archives/3733"} url_en={"https://ushitora.net/en-GB/archives/4526"} />
+            <InvalidInput {lang} />
+            <Reference {lang} url_ja={"https://ushitora.net/archives/3733"} url_en={"https://ushitora.net/3733"} />
             <div class="row justify-content-md-center">
             <div class={class_core("")}>
             <div class="d-none d-md-block">
@@ -237,7 +235,7 @@ pub fn stat_error_ellipse() -> Html {
             </div>
             </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

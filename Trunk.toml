@@ -1,0 +1,20 @@
+[build]
+public_url = "/"
+
+[prerender]
+routes = [
+    "/", "/privacy",
+    "/electronic/", "/electronic/delta_y/",
+    "/map/", "/map/circle_center",
+    "/math/", "/math/diffeq_linear2", "/math/diffeq_linear2_frac",
+    "/sport/", "/sport/golf_sg",
+    "/stat/", "/stat/error_ellipse", "/stat/roc_auc_ci",
+    "/unit/", "/unit/length", "/unit/mass",
+    "/en/", "/en/privacy",
+    "/en/electronic/", "/en/electronic/delta_y/",
+    "/en/map/", "/en/map/circle_center",
+    "/en/math/", "/en/math/diffeq_linear2", "/en/math/diffeq_linear2_frac",
+    "/en/sport/", "/en/sport/golf_sg",
+    "/en/stat/", "/en/stat/error_ellipse", "/en/stat/roc_auc_ci",
+    "/en/unit/", "/en/unit/length", "/en/unit/mass",
+]

@@ -22,3 +22,15 @@ macro_rules! parse_state {
         match (*$name).parse::<$type>() { Ok(v) => v, Err(_) => return, }
     };
 }
+
+#[macro_export]
+macro_rules! set_lang {
+    ($f:ident, $ja:expr, $en:expr) => {
+        fn $f(lang: Lang) -> String {
+            match lang {
+                Lang::Ja => $ja.to_string(),
+                Lang::En => $en.to_string(),
+            }
+        }
+    };
+}

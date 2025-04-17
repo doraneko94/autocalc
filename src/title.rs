@@ -2,37 +2,29 @@ use yew::prelude::*;
 use web_sys::window;
 
 use crate::layout::{class_core, class_text};
+use crate::meta::title_dscr;
+use crate::router::{Lang, Route};
 
 #[derive(Properties, PartialEq)]
 pub struct TitleProps {
-    pub title: String,
-    pub lead: String,
+    pub lang: Lang,
+    pub route: Route,
 }
 
 #[function_component(Title)]
 pub fn title(props: &TitleProps) -> Html {
+    let (title, dscr) = title_dscr(props.route.to_lang(props.lang));
     let document = window().unwrap().document().unwrap();
-    document.set_title(&props.title);
-    let meta_tags = document.get_elements_by_tag_name("meta");
-    for i in 0..meta_tags.length() {
-        match meta_tags.item(i) {
-            Some(elem) => match elem.get_attribute("name") {
-                Some(name) => {
-                    if &name == "description" {
-                        let _ = elem.set_attribute("content", &props.lead);
-                    }
-                }
-                None => {}
-            }
-            None => {}
-        }
+    document.set_title(&format!("{} | AutoCalc", &title));
+    if let Some(meta) = document.query_selector("meta[name='description']").unwrap() {
+        meta.set_attribute("content", &dscr).ok();
     }
     html! {
         <div class="row justify-content-md-center">
             <div class={class_text("")}>
-                <h1 class="mt-3">{&props.title}</h1>
-                if props.lead != "".to_string() {
-                    <p class="lead">{&props.lead}</p>
+                <h1 class="mt-3">{&title}</h1>
+                if dscr != "".to_string() {
+                    <p class="lead">{&dscr}</p>
                 }
             </div>
         </div>

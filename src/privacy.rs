@@ -1,14 +1,13 @@
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::set_lang;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_text;
-use crate::router::parse_query;
+use crate::router::{Lang, Route};
 use crate::title::Title;
-use crate::url::{self, DataMode, Lang};
 
 set_lang!(_privacy, "プライバシーポリシー", "Privacy Policy");
 set_lang!(_personal, "個人情報の利用目的", "Use of Personal Data");
@@ -175,16 +174,14 @@ set_lang!(_link2,
 );
 
 #[function_component(Privacy)]
-pub fn privacy() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn privacy(props: &HomeProps) -> Html {
+    let lang = props.lang;
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::Privacy} {lang} />
+        <BreadCrumb route={Route::Privacy} {lang} />
         <main class="container mt-2">
-        <Title title={url::privacy(DataMode::Name(lang))} lead={"".to_string()} />
+        <Title route={Route::Privacy} {lang} />
         <div class="row justify-content-md-center">
         <div class={class_text("")}>
             <h2 class="mt-5">{_privacy(lang)}</h2>
@@ -247,7 +244,7 @@ pub fn privacy() -> Html {
         </div>
         </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

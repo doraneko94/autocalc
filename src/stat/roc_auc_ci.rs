@@ -1,16 +1,15 @@
 use statrs::distribution::{Normal, ContinuousCDF};
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::announce::{InvalidInput, Reference};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
-use crate::router::parse_query;
+use crate::router::{Lang, Route};
 use crate::title::{Thumbnail, Title};
-use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
 
 set_lang!(_parameter, "AUCとサンプル数を入力", "Enter AUC and Number of Samples");
@@ -24,10 +23,8 @@ set_lang!(_lower, "AUCの下限値", "Lower bound of AUC");
 set_lang!(_upper, "AUCの上限値", "Upper bound of AUC");
 
 #[function_component(StatRocAucCi)]
-pub fn stat_roc_auc_ci() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn stat_roc_auc_ci(props: &HomeProps) -> Html {
+    let lang = props.lang;
     let auc = use_state(|| 0.8.to_string());
     let pos = use_state(|| 20.to_string());
     let neg = use_state(|| 20.to_string());
@@ -69,13 +66,13 @@ pub fn stat_roc_auc_ci() -> Html {
 
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::StatRocAucCi} {lang} />
+        <BreadCrumb route={Route::StatRocAucCi} {lang} />
         <main class="container mt-2">
-            <Title title={url::stat_roc_auc_ci(DataMode::Name(lang))} lead={url::stat_roc_auc_ci(DataMode::Dscr(lang))} />
+            <Title route={Route::StatRocAucCi} {lang} />
             <Thumbnail img={"/img/roc_auc.webp"} />
-            <InvalidInput />
-            <Reference url_ja="https://ushitora.net/archives/800" url_en="https://ushitora.net/en-GB/archives/4530" />
+            <InvalidInput {lang} />
+            <Reference {lang} url_ja="https://ushitora.net/archives/800" url_en="https://ushitora.net/archives/800" />
             <div class="row justify-content-md-center">
             <div class={class_core("")}>
             <table class="table align-middle">
@@ -136,7 +133,7 @@ pub fn stat_roc_auc_ci() -> Html {
             </div>
             </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

@@ -1,17 +1,16 @@
 use coordinate::functions::circle_center;
 use coordinate::point::LatLon;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::announce::{InCaseDistortion, InvalidInput};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
-use crate::router::parse_query;
+use crate::router::{Lang, Route};
 use crate::title::{Thumbnail, Title};
-use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
 
 #[derive(Properties, PartialEq)]
@@ -52,16 +51,14 @@ set_lang!(_std, "標準偏差", "Standard Deviation");
 set_lang!(_dist, "中心点からの距離", "Distance from Centre Point");
 
 #[function_component(MapCircleCenter)]
-pub fn map_circle_center() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
-    let lat_1 = use_state(|| 34.4706978.to_string());
-    let lon_1 = use_state(|| 136.6937732.to_string());
-    let lat_2 = use_state(|| 33.8405858.to_string());
-    let lon_2 = use_state(|| 135.5446009.to_string());
-    let lat_3 = use_state(|| 34.4600537.to_string());
-    let lon_3 = use_state(|| 134.8499204.to_string());
+pub fn map_circle_center(props: &HomeProps) -> Html {
+    let lang = props.lang;
+    let lat_1 = use_state(|| 34.4549588.to_string());
+    let lon_1 = use_state(|| 136.7251689.to_string());
+    let lat_2 = use_state(|| 33.8406465.to_string());
+    let lon_2 = use_state(|| 135.7736686.to_string());
+    let lat_3 = use_state(|| 34.4599703.to_string());
+    let lon_3 = use_state(|| 134.8524699.to_string());
     let lat_c = use_state(|| "0".to_string());
     let lon_c = use_state(|| "0".to_string());
     let mean = use_state(|| "0".to_string());
@@ -107,13 +104,13 @@ pub fn map_circle_center() -> Html {
 
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::MapCircleCenter} {lang} />
+        <BreadCrumb route={Route::MapCircleCenter} {lang} />
         <main class="container mt-2">
-        <Title title={url::map_circle_center(DataMode::Name(lang))} lead={url::map_circle_center(DataMode::Dscr(lang))} />
+        <Title route={Route::MapCircleCenter} {lang} />
         <Thumbnail img={"/img/circle_centre.png"} />
-        <InvalidInput />
-        <InCaseDistortion />
+        <InvalidInput {lang} />
+        <InCaseDistortion {lang} />
         <div class="row justify-content-md-center">
         <div class={class_core("")}>
         <div class="d-none d-sm-block">
@@ -277,7 +274,7 @@ pub fn map_circle_center() -> Html {
         </div>
         </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

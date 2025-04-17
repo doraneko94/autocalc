@@ -1,16 +1,15 @@
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
+use crate::home::HomeProps;
 use crate::{parse_state, set_lang};
 use crate::announce::InvalidInput;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
 use crate::layout::class_core;
-use crate::router::parse_query;
+use crate::router::{Lang, Route};
 use crate::title::Title;
-use crate::url::{self, DataMode, Lang};
 
 #[derive(Properties, PartialEq)]
 pub struct UnitMassFormProps {
@@ -61,10 +60,8 @@ set_lang!(_kin, "斤", "斤 -Kin-");
 set_lang!(_kan, "貫", "貫 -Kan-");
 
 #[function_component(UnitMass)]
-pub fn unit_mass() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn unit_mass(props: &HomeProps) -> Html {
+    let lang = props.lang;
     let kg = use_state(|| 1.0_f32.to_string());
     let grain = use_state(|| (1.0 / GRAIN).to_string());
     let dram = use_state(|| (1.0 / DRAM).to_string());
@@ -131,11 +128,11 @@ pub fn unit_mass() -> Html {
     };
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::UnitMass} {lang} />
+        <BreadCrumb route={Route::UnitMass} {lang} />
         <main class="container mt-2">
-        <Title title={url::unit_mass(DataMode::Name(lang))} lead={url::unit_mass(DataMode::Dscr(lang))} />
-        <InvalidInput />
+        <Title route={Route::UnitMass} {lang} />
+        <InvalidInput {lang} />
         <div class="row justify-content-md-center">
         <div class={class_core("accordion")} id="accordionUnits">
             <div class="accordion-item">
@@ -200,7 +197,7 @@ pub fn unit_mass() -> Html {
         </div>
         </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

@@ -1,61 +1,77 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
-use crate::router::parse_query;
-use crate::url::*;
+use crate::router::{Lang, Route};
+use crate::meta::title_dscr;
 
 #[derive(Properties, PartialEq)]
-pub struct BreadCrumbBaseProps {
+pub struct BreadCrumbProps {
     pub lang: Lang,
-    pub current: String,
-    pub parent: Vec<(String, String)>
+    pub route: Route,
 }
 
-#[function_component(BreadCrumbBase)]
-pub fn breadcrumb_base(props: &BreadCrumbBaseProps) -> Html {
+#[function_component(BreadCrumb)]
+pub fn breadcrumb(props: &BreadCrumbProps) -> Html {
+    let lang = props.lang;
+    let v_parents = parents(props.route).iter().map(|page| page.to_lang(lang)).collect::<Vec<Route>>();
+    let (current_title, _) = title_dscr(props.route.to_lang(lang));
     html!{
         <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 {
-                    props.parent.iter().map(|(url, name)| html! {
-                        <li class="breadcrumb-item"><a href={url.clone()}>{name}</a></li>
+                    v_parents.iter().map(|route| {
+                        let (title, _) = title_dscr(*route);
+                        html! {
+                            <li class="breadcrumb-item"><Link<Route> to={route.clone()}>{title}</Link<Route>></li>
+                        }
                     }).collect::<Html>()
                 }
-                <li class="breadcrumb-item active" aria-current="page">{props.current.clone()}</li>
+                <li class="breadcrumb-item active" aria-current="page">{current_title}</li>
             </ol>
         </nav>
         </div>
     }
 }
 
-#[function_component(BreadCrumb)]
-pub fn breadcrumb() -> Html {
-    let params = parse_query(use_location().unwrap().query_str());
-    let lang = match params {
-        (_, Some(lang)) => lang,
-        (_, None) => Lang::En
-    };
-    
-    let (current, parent) = match params {
-        (None, _) => { (home(DataMode::Name(lang)), vec![]) }
-        (Some(path), _) => {
-            let current = path_to_name(&path, lang);
-            let path_list = path.split("/").collect::<Vec<&str>>();
-            let length = path_list.len();
-            let parent = (0..length).map(|i| {
-                let mut path = "".to_string();
-                for j in 0..i {
-                    if j > 1 { path = path + "/"; }
-                    path = path + path_list[j];
-                }
-                (path_to_url(&path, lang), path_to_name(&path, lang))
-            }).collect();
-            (current, parent)
-        }
-    };
+fn parents(route: Route) -> Vec<Route> {
+    match route {
+        Route::Home => vec![],
+        Route::Privacy => vec![Route::Home],
+        Route::ElectronicHome => vec![Route::Home],
+        Route::ElectronicDeltaY => vec![Route::Home, Route::ElectronicHome],
+        Route::MapHome => vec![Route::Home],
+        Route::MapCircleCenter => vec![Route::Home, Route::MapHome],
+        Route::MathHome => vec![Route::Home],
+        Route::MathDiffeqLinear2 => vec![Route::Home, Route::MathHome],
+        Route::MathDiffeqLinear2Frac => vec![Route::Home, Route::MathHome],
+        Route::SportHome => vec![Route::Home],
+        Route::SportGolfSg => vec![Route::Home, Route::SportHome],
+        Route::StatHome => vec![Route::Home],
+        Route::StatErrorEllipse => vec![Route::Home, Route::StatHome],
+        Route::StatRocAucCi => vec![Route::Home, Route::StatHome],
+        Route::UnitHome => vec![Route::Home],
+        Route::UnitLength => vec![Route::Home, Route::UnitHome],
+        Route::UnitMass => vec![Route::Home, Route::UnitHome],
 
-    html! {
-        <><BreadCrumbBase {lang} {current} {parent} /></>
+        Route::HomeEn => vec![],
+        Route::PrivacyEn => vec![Route::HomeEn],
+        Route::ElectronicHomeEn => vec![Route::HomeEn],
+        Route::ElectronicDeltaYEn => vec![Route::HomeEn, Route::ElectronicHomeEn],
+        Route::MapHomeEn => vec![Route::HomeEn],
+        Route::MapCircleCenterEn => vec![Route::HomeEn, Route::MapHomeEn],
+        Route::MathHomeEn => vec![Route::HomeEn],
+        Route::MathDiffeqLinear2En => vec![Route::HomeEn, Route::MathHomeEn],
+        Route::MathDiffeqLinear2FracEn => vec![Route::HomeEn, Route::MathHomeEn],
+        Route::SportHomeEn => vec![Route::HomeEn],
+        Route::SportGolfSgEn => vec![Route::HomeEn, Route::SportHomeEn],
+        Route::StatHomeEn => vec![Route::HomeEn],
+        Route::StatErrorEllipseEn => vec![Route::HomeEn, Route::StatHomeEn],
+        Route::StatRocAucCiEn => vec![Route::HomeEn, Route::StatHomeEn],
+        Route::UnitHomeEn => vec![Route::HomeEn],
+        Route::UnitLengthEn => vec![Route::HomeEn, Route::UnitHomeEn],
+        Route::UnitMassEn => vec![Route::HomeEn, Route::UnitHomeEn],
+
+        Route::NotFound => vec![]
     }
 }

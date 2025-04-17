@@ -1,9 +1,6 @@
 use yew::prelude::*;
-use yew_router::prelude::*;
-
 use crate::layout::class_text;
-use crate::router::parse_query;
-use crate::url::Lang;
+use crate::router::Lang;
 
 #[derive(Properties, PartialEq)]
 pub struct LinkHereProps {
@@ -11,13 +8,12 @@ pub struct LinkHereProps {
     pub mes_en: String,
     pub url_ja: String,
     pub url_en: String,
+    pub lang: Lang,
 }
 
 #[function_component(LinkHere)]
 pub fn link_here(props: &LinkHereProps) -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+    let lang = props.lang;
     html! {
         <div class="row justify-content-md-center">
             <div class={class_text("")}>
@@ -38,13 +34,12 @@ pub fn link_here(props: &LinkHereProps) -> Html {
 pub struct ReferenceProps {
     pub url_ja: String,
     pub url_en: String,
+    pub lang: Lang,
 }
 
 #[function_component(Reference)]
 pub fn reference(props: &ReferenceProps) -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+    let lang = props.lang;
     html! {
         <div class="row justify-content-md-center">
             <div class={class_text("")}>
@@ -61,13 +56,16 @@ pub fn reference(props: &ReferenceProps) -> Html {
     }
 }
 
+#[derive(Properties, PartialEq)]
+pub struct ErrorProps {
+    pub lang: Lang,
+}
+
 macro_rules! announce {
     ($name: ident, $ja: expr, $en: expr, $class: expr) => {
         #[function_component($name)]
-        pub fn f() -> Html {
-            let lang = match parse_query(use_location().unwrap().query_str()).1 {
-                Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-            };
+        pub fn f(props: &ErrorProps) -> Html {
+            let lang = props.lang;
             html! {
                 <div class="row justify-content-md-center">
                     <div class={class_text("")}>

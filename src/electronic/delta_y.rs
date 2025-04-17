@@ -1,15 +1,14 @@
 use wasm_bindgen::prelude::*;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::announce::{InvalidInput, Reference};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::{class_core, class_half};
-use crate::router::parse_query;
-use crate::url::{self, DataMode, Lang};
+use crate::router::{Lang, Route};
 use crate::{parse_state, set_lang};
 use crate::title::Title;
 
@@ -54,10 +53,8 @@ extern "C" {
 }
 
 #[function_component(ElectronicDeltaY)]
-pub fn electronic_delta_y() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn electronic_delta_y(props: &HomeProps) -> Html {
+    let lang = props.lang;
     let d_a = use_state(|| 30.to_string());
     let d_b = use_state(|| 30.to_string());
     let d_c = use_state(|| 30.to_string());
@@ -100,12 +97,12 @@ pub fn electronic_delta_y() -> Html {
 
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::ElectronicDeltaY} {lang} />
+        <BreadCrumb route={Route::ElectronicDeltaY} {lang} />
         <main class="container mt-2">
-        <Title title={url::electronic_delta_y(DataMode::Name(lang))} lead={url::electronic_delta_y(DataMode::Dscr(lang))} />
-        <InvalidInput />
-        <Reference url_ja={"https://ushitora.net/archives/2744"} url_en={"https://ushitora.net/en-GB/archives/4528"} />
+        <Title route={Route::ElectronicDeltaY} {lang} />
+        <InvalidInput {lang} />
+        <Reference {lang} url_ja={"https://ushitora.net/archives/2744"} url_en={"https://ushitora.net/archives/2744"} />
         <div class="row justify-content-md-center">
             <div class={class_core("")}>
             <table class="table align-middle">
@@ -147,7 +144,7 @@ pub fn electronic_delta_y() -> Html {
             </div>
         </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

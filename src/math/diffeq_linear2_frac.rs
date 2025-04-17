@@ -1,16 +1,15 @@
 use diffeq::solution_int::solve;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::announce::{InvalidInput, OnlyInteger, Reference};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_core;
 use crate::{parse_state, set_lang};
-use crate::router::parse_query;
+use crate::router::{Lang, Route};
 use crate::title::Title;
-use crate::url::{self, DataMode, Lang};
 use crate::utils::onchange_form;
 use wasm_bindgen::prelude::*;
 
@@ -27,10 +26,8 @@ extern "C" {
 }
 
 #[function_component(MathDiffeqLinear2Frac)]
-pub fn math_diffeq_linear2_frac() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn math_diffeq_linear2_frac(props: &HomeProps) -> Html {
+    let lang = props.lang;
     let a = use_state(|| 1.to_string());
     let b = use_state(|| 2.to_string());
     let c = use_state(|| (-3).to_string());
@@ -61,13 +58,13 @@ pub fn math_diffeq_linear2_frac() -> Html {
 
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::MathDiffeqLinear2Frac} {lang} />
+        <BreadCrumb route={Route::MathDiffeqLinear2Frac} {lang} />
         <main class="container mt-2">
-            <Title title={url::math_diffeq_linear2_frac(DataMode::Name(lang))} lead={url::math_diffeq_linear2_frac(DataMode::Dscr(lang))} />
-            <InvalidInput />
-            <OnlyInteger />
-            <Reference url_ja="https://ushitora.net/archives/3400" url_en="https://ushitora.net/en-GB/archives/4532" />
+            <Title route={Route::MathDiffeqLinear2Frac} {lang} />
+            <InvalidInput {lang} />
+            <OnlyInteger {lang} />
+            <Reference {lang} url_ja="https://ushitora.net/archives/3400" url_en="https://ushitora.net/archives/3400" />
             <div class="row justify-content-md-center">
             <div class={class_core("")}>
             <table class="table align-middle ">
@@ -116,7 +113,7 @@ pub fn math_diffeq_linear2_frac() -> Html {
             </div>
             </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }

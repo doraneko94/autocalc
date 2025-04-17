@@ -1,14 +1,13 @@
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::announce::InvalidInput;
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
+use crate::home::HomeProps;
 use crate::layout::class_core;
-use crate::router::parse_query;
-use crate::url::{self, DataMode, Lang};
+use crate::router::{Lang, Route};
 use crate::{parse_state, set_lang};
 use crate::title::Title;
 
@@ -63,10 +62,8 @@ set_lang!(_kairi, "海里", "Nautical mile");
 set_lang!(_fathom, "ファゾム", "Fathom");
 
 #[function_component(UnitLength)]
-pub fn unit_base() -> Html {
-    let lang = match parse_query(use_location().unwrap().query_str()).1 {
-        Some(Lang::Ja) => Lang::Ja, _ => Lang::En
-    };
+pub fn unit_base(props: &HomeProps) -> Html {
+    let lang = props.lang;
     let meter = use_state(|| 1.0_f32.to_string());
     let inch = use_state(|| (1.0 / INCH).to_string());
     let feet = use_state(|| (1.0 / FEET).to_string());
@@ -141,11 +138,11 @@ pub fn unit_base() -> Html {
     
     html! {
         <>
-        <Header />
-        <BreadCrumb />
+        <Header route={Route::UnitLength} {lang} />
+        <BreadCrumb route={Route::UnitLength} {lang} />
         <main class="container mt-2">
-        <Title title={url::unit_length(DataMode::Name(lang))} lead={url::unit_length(DataMode::Dscr(lang))} />
-        <InvalidInput />
+        <Title route={Route::UnitLength} {lang} />
+        <InvalidInput {lang} />
         <div class="row justify-content-md-center">
         <div class={class_core("accordion")} id="accordionUnits">
             <div class="accordion-item">
@@ -226,7 +223,7 @@ pub fn unit_base() -> Html {
         </div>
         </div>
         </main>
-        <Footer />
+        <Footer {lang} />
         </>
     }
 }
