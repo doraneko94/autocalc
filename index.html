@@ -13,6 +13,7 @@
     gtag('config', 'G-1FRCSJCBHX');
     </script>
 
+    <base href="/" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,11 +61,18 @@
     }
     </script>
     <script type="text/javascript" id="typesetclear">
-        function typesetClear()
-        {
-            MathJax.typesetClear();
+    function typesetClear()
+    {
+        MathJax.typesetClear();
+    }
+    </script>
+    <script>
+        if (sessionStorage.redirect) {
+            const redirect = sessionStorage.redirect;
+            delete sessionStorage.redirect;
+            history.replaceState(null, "", redirect);
         }
-        </script>
+    </script>
     <title>AutoCalc - Fast and High-Performance Online Calculation Apps</title>
 <link rel="modulepreload" href="/autocalc-e060a7926019627.js" crossorigin="anonymous" integrity="sha384-yf6RWKXv259nGlAoHHUPXmmvU0XkJzeD4X09Cqpy+XygaiJ6yoIMQndE/A/cKp75"><link rel="preload" href="/autocalc-e060a7926019627_bg.wasm" crossorigin="anonymous" integrity="sha384-jIIsDNPrbsX/+aIvDbbv2pYdDe3nlbzdbFir3N/rIUZA21XiEIiTzWe9Ng7UEX3V" as="fetch" type="application/wasm"></head>
 
