@@ -17,6 +17,7 @@ edition = "2021"
 [dependencies]
 coordinate = { path = "./coordinate" }
 diffeq = { path = "./diffeq" }
+gloo = "0.11.0"
 matrix = { path = "./matrix" }
 statrs = "0.16.0"
 trigo = { git = "https://github.com/doraneko94/trigo" }

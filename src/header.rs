@@ -1,3 +1,4 @@
+use gloo::utils::document;
 use yew::prelude::*;
 use yew_router::prelude::*;
 
@@ -12,6 +13,15 @@ pub struct HeaderProps {
 #[function_component(Header)]
 pub fn header(props: &HeaderProps) -> Html {
     let lang = props.lang;
+
+    document().document_element().unwrap().set_attribute(
+        "lang", 
+        match lang {
+            Lang::Ja => "ja",
+            Lang::En => "en"
+        }
+    ).unwrap();
+
     let route = props.route.to_lang(lang);
     let home = match lang {
         Lang::Ja => Route::Home,
