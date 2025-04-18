@@ -6,7 +6,7 @@ use coordinate::consts::*;
 
 fn main() {
     println!("{:?}", DELTA);
-    /*let reference = LatLon::from_angle(
+    let reference = LatLon::from_angle(
         Angle::from_dms(DMS::new(true, 36, 0, 0.0)),
         Angle::from_dms(DMS::new(true, 139, 50, 0.0)),
     );
@@ -35,5 +35,5 @@ fn main() {
     println!("{}", distance);
     println!("{}", center.direction_plane(a).unwrap().0);
     println!("{}", center.direction_plane(b).unwrap().0);
-    println!("{}", center.direction_plane(c).unwrap().0);*/
+    println!("{}", center.direction_plane(c).unwrap().0);
 }
