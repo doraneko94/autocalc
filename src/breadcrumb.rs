@@ -46,7 +46,7 @@ fn parents(route: Route) -> Vec<Route> {
 
         Route::DigitalBase | Route::DigitalBaseEn => to_lang_vec(&[Route::Home, Route::DigitalHome], route.get_lang()),
         Route::DigitalBitCalc | Route::DigitalBitCalcEn => to_lang_vec(&[Route::Home, Route::DigitalHome], route.get_lang()),
-        Route::DigitalFloat | Route::DigitalFloatEn => to_lang_vec(&[Route::Home, Route::DigitalFloat], route.get_lang()),
+        Route::DigitalFloat | Route::DigitalFloatEn => to_lang_vec(&[Route::Home, Route::DigitalHome], route.get_lang()),
         Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => to_lang_vec(&[Route::Home, Route::ElectronicHome], route.get_lang()),
         Route::MapCircleCenter | Route::MapCircleCenterEn => to_lang_vec(&[Route::Home, Route::MapHome], route.get_lang()),
         Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2En => to_lang_vec(&[Route::Home, Route::MathHome], route.get_lang()),
