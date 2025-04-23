@@ -19,6 +19,15 @@ pub fn title(props: &TitleProps) -> Html {
     if let Some(meta) = document.query_selector("meta[name='description']").unwrap() {
         meta.set_attribute("content", &dscr).ok();
     }
+    let html = document.document_element().unwrap();
+    html.set_attribute(
+        "lang",
+        match props.lang {
+            Lang::Ja => "ja",
+            Lang::En => "en",
+        }
+    ).unwrap();
+
     html! {
         <div class="row justify-content-md-center">
             <div class={class_text("")}>

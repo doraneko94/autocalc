@@ -1,6 +1,10 @@
 use yew::prelude::*;
 use yew_router::prelude::*;
 
+use crate::digital::bit_calc::DigitalBitCalc;
+use crate::digital::DigitalHome;
+use crate::digital::base::DigitalBase;
+use crate::digital::float::DigitalFloat;
 use crate::electronic::ElectronicHome;
 use crate::electronic::delta_y::ElectronicDeltaY;
 use crate::home::Home;
@@ -31,6 +35,15 @@ pub enum Route {
     Home,
     #[at("/privacy")]
     Privacy,
+
+    #[at("/digital/")]
+    DigitalHome,
+    #[at("/digital/base")]
+    DigitalBase,
+    #[at("/digital/bit_calc")]
+    DigitalBitCalc,
+    #[at("/digital/float")]
+    DigitalFloat,
     
     #[at("/electronic/")]
     ElectronicHome,
@@ -74,6 +87,15 @@ pub enum Route {
     HomeEn,
     #[at("/en/privacy")]
     PrivacyEn,
+
+    #[at("/en/digital/")]
+    DigitalHomeEn,
+    #[at("/en/digital/base")]
+    DigitalBaseEn,
+    #[at("/en/digital/bit_calc")]
+    DigitalBitCalcEn,
+    #[at("/en/digital/float")]
+    DigitalFloatEn,
 
     #[at("/en/electronic/")]
     ElectronicHomeEn,
@@ -122,6 +144,10 @@ pub fn switch(route: Route) -> Html {
     match route {
         Route::Home | Route::HomeEn => html! { <><Home lang={route.get_lang()} /></> },
         Route::Privacy | Route::PrivacyEn => html! { <><Privacy lang={route.get_lang()} /></> },
+        Route::DigitalHome | Route::DigitalHomeEn => html! { <><DigitalHome lang={route.get_lang()} /></> },
+        Route::DigitalBase | Route::DigitalBaseEn => html! { <><DigitalBase lang={route.get_lang()} /></> },
+        Route::DigitalBitCalc | Route::DigitalBitCalcEn => html! { <><DigitalBitCalc lang={route.get_lang()} /></> },
+        Route::DigitalFloat | Route::DigitalFloatEn => html! { <><DigitalFloat lang={route.get_lang()} /></> },
         Route::ElectronicHome | Route::ElectronicHomeEn => html! { <><ElectronicHome lang={route.get_lang()} /></> },
         Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => html! { <><ElectronicDeltaY lang={route.get_lang()} /></> },
         Route::MapHome | Route::MapHomeEn => html! { <><MapHome lang={route.get_lang()} /></> },
@@ -145,8 +171,9 @@ pub fn switch(route: Route) -> Html {
 impl Route {
     pub fn get_lang(&self) -> Lang {
         match self {
-            Route::Home | Route::Privacy | Route::ElectronicHome | Route::ElectronicDeltaY
-            | Route::MapHome | Route::MapCircleCenter |Route::MathHome | Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2Frac 
+            Route::Home | Route::Privacy | Route::DigitalHome | Route::DigitalBase | Route::DigitalFloat | Route::DigitalBitCalc
+            | Route::ElectronicHome | Route::ElectronicDeltaY | Route::MapHome | Route::MapCircleCenter 
+            | Route::MathHome | Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2Frac 
             | Route::SportHome | Route::SportGolfSg | Route::StatHome | Route::StatErrorEllipse | Route::StatRocAucCi
             | Route::UnitHome | Route::UnitLength | Route::UnitMass => Lang::Ja,
 
@@ -158,6 +185,10 @@ impl Route {
         match self {
             Route::Home | Route::HomeEn => match lang { Lang::Ja => Route::Home, Lang::En => Route::HomeEn },
             Route::Privacy | Route::PrivacyEn => match lang { Lang::Ja => Route::Privacy, Lang::En => Route::PrivacyEn },
+            Route::DigitalHome | Route::DigitalHomeEn => match lang { Lang::Ja => Route::DigitalHome, Lang::En => Route::DigitalHomeEn },
+            Route::DigitalBase | Route::DigitalBaseEn => match lang { Lang::Ja => Route::DigitalBase, Lang::En => Route::DigitalBaseEn },
+            Route::DigitalBitCalc | Route::DigitalBitCalcEn => match lang { Lang::Ja => Route::DigitalBitCalc, Lang::En => Route::DigitalBitCalcEn },
+            Route::DigitalFloat | Route::DigitalFloatEn => match lang { Lang::Ja => Route::DigitalFloat, Lang::En => Route::DigitalFloatEn },
             Route::ElectronicHome | Route::ElectronicHomeEn => match lang { Lang::Ja => Route::ElectronicHome, Lang::En => Route::ElectronicHomeEn },
             Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => match lang { Lang::Ja => Route::ElectronicDeltaY, Lang::En => Route::ElectronicDeltaYEn },
             Route::MapHome | Route::MapHomeEn => match lang { Lang::Ja => Route::MapHome, Lang::En => Route::MapHomeEn },
@@ -173,7 +204,7 @@ impl Route {
             Route::UnitHome | Route::UnitHomeEn => match lang { Lang::Ja => Route::UnitHome, Lang::En => Route::UnitHomeEn },
             Route::UnitLength | Route::UnitLengthEn => match lang { Lang::Ja => Route::UnitLength, Lang::En => Route::UnitLengthEn },
             Route::UnitMass | Route::UnitMassEn => match lang { Lang::Ja => Route::UnitMass, Lang::En => Route::UnitMassEn },
-            _ => Route::NotFound
+            Route::NotFound => Route::NotFound
         }
     }
 }

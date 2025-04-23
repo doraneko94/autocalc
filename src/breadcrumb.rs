@@ -3,6 +3,7 @@ use yew_router::prelude::*;
 
 use crate::router::{Lang, Route};
 use crate::meta::title_dscr;
+use crate::utils::to_lang_vec;
 
 #[derive(Properties, PartialEq)]
 pub struct BreadCrumbProps {
@@ -36,42 +37,24 @@ pub fn breadcrumb(props: &BreadCrumbProps) -> Html {
 
 fn parents(route: Route) -> Vec<Route> {
     match route {
-        Route::Home => vec![],
-        Route::Privacy => vec![Route::Home],
-        Route::ElectronicHome => vec![Route::Home],
-        Route::ElectronicDeltaY => vec![Route::Home, Route::ElectronicHome],
-        Route::MapHome => vec![Route::Home],
-        Route::MapCircleCenter => vec![Route::Home, Route::MapHome],
-        Route::MathHome => vec![Route::Home],
-        Route::MathDiffeqLinear2 => vec![Route::Home, Route::MathHome],
-        Route::MathDiffeqLinear2Frac => vec![Route::Home, Route::MathHome],
-        Route::SportHome => vec![Route::Home],
-        Route::SportGolfSg => vec![Route::Home, Route::SportHome],
-        Route::StatHome => vec![Route::Home],
-        Route::StatErrorEllipse => vec![Route::Home, Route::StatHome],
-        Route::StatRocAucCi => vec![Route::Home, Route::StatHome],
-        Route::UnitHome => vec![Route::Home],
-        Route::UnitLength => vec![Route::Home, Route::UnitHome],
-        Route::UnitMass => vec![Route::Home, Route::UnitHome],
+        Route::Home | Route::HomeEn | Route::NotFound => vec![],
+        Route::Privacy | Route::PrivacyEn | Route::DigitalHome | Route::DigitalHomeEn | 
+        Route::ElectronicHome | Route::ElectronicHomeEn | Route::MapHome | Route::MapHomeEn |
+        Route::MathHome | Route::MathHomeEn | Route::SportHome | Route::SportHomeEn |
+        Route::StatHome | Route::StatHomeEn | Route::UnitHome | Route::UnitHomeEn
+        => to_lang_vec(&[Route::Home], route.get_lang()),
 
-        Route::HomeEn => vec![],
-        Route::PrivacyEn => vec![Route::HomeEn],
-        Route::ElectronicHomeEn => vec![Route::HomeEn],
-        Route::ElectronicDeltaYEn => vec![Route::HomeEn, Route::ElectronicHomeEn],
-        Route::MapHomeEn => vec![Route::HomeEn],
-        Route::MapCircleCenterEn => vec![Route::HomeEn, Route::MapHomeEn],
-        Route::MathHomeEn => vec![Route::HomeEn],
-        Route::MathDiffeqLinear2En => vec![Route::HomeEn, Route::MathHomeEn],
-        Route::MathDiffeqLinear2FracEn => vec![Route::HomeEn, Route::MathHomeEn],
-        Route::SportHomeEn => vec![Route::HomeEn],
-        Route::SportGolfSgEn => vec![Route::HomeEn, Route::SportHomeEn],
-        Route::StatHomeEn => vec![Route::HomeEn],
-        Route::StatErrorEllipseEn => vec![Route::HomeEn, Route::StatHomeEn],
-        Route::StatRocAucCiEn => vec![Route::HomeEn, Route::StatHomeEn],
-        Route::UnitHomeEn => vec![Route::HomeEn],
-        Route::UnitLengthEn => vec![Route::HomeEn, Route::UnitHomeEn],
-        Route::UnitMassEn => vec![Route::HomeEn, Route::UnitHomeEn],
-
-        Route::NotFound => vec![]
+        Route::DigitalBase | Route::DigitalBaseEn => to_lang_vec(&[Route::Home, Route::DigitalHome], route.get_lang()),
+        Route::DigitalBitCalc | Route::DigitalBitCalcEn => to_lang_vec(&[Route::Home, Route::DigitalHome], route.get_lang()),
+        Route::DigitalFloat | Route::DigitalFloatEn => to_lang_vec(&[Route::Home, Route::DigitalFloat], route.get_lang()),
+        Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => to_lang_vec(&[Route::Home, Route::ElectronicHome], route.get_lang()),
+        Route::MapCircleCenter | Route::MapCircleCenterEn => to_lang_vec(&[Route::Home, Route::MapHome], route.get_lang()),
+        Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2En => to_lang_vec(&[Route::Home, Route::MathHome], route.get_lang()),
+        Route::MathDiffeqLinear2Frac | Route::MathDiffeqLinear2FracEn => to_lang_vec(&[Route::Home, Route::MathHome], route.get_lang()),
+        Route::SportGolfSg | Route::SportGolfSgEn => to_lang_vec(&[Route::Home, Route::SportHome], route.get_lang()),
+        Route::StatErrorEllipse | Route::StatErrorEllipseEn => to_lang_vec(&[Route::Home, Route::StatHome], route.get_lang()),
+        Route::StatRocAucCi | Route::StatRocAucCiEn => to_lang_vec(&[Route::Home, Route::StatHome], route.get_lang()),
+        Route::UnitLength | Route::UnitLengthEn => to_lang_vec(&[Route::Home, Route::UnitHome], route.get_lang()),
+        Route::UnitMass | Route::UnitMassEn => to_lang_vec(&[Route::Home, Route::UnitHome], route.get_lang()),
     }
 }

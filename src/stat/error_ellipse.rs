@@ -81,7 +81,7 @@ pub fn stat_error_ellipse(props: &HomeProps) -> Html {
             <Reference {lang} url_ja={"https://ushitora.net/archives/3733"} url_en={"https://ushitora.net/3733"} />
             <div class="row justify-content-md-center">
             <div class={class_core("")}>
-            <div class="d-none d-md-block">
+            <div class="table-responsive">
             <table class="table align-middle">
             <thead>
                 <tr><th scope="col" colspan="6">{_parameter(lang)}</th></tr>
@@ -137,7 +137,7 @@ pub fn stat_error_ellipse(props: &HomeProps) -> Html {
             </tbody>
             </table>
             </div>
-            <div class="d-sm-none">
+            <div class="table-responsive">
             <table class="table align-middle">
             <thead>
                 <tr><th scope="col" colspan="5">{_parameter(lang)}</th></tr>

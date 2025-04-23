@@ -10,6 +10,22 @@ pub fn title_dscr(route: Route) -> (String, String) {
             "プライバシーポリシー・免責事項",
             ""
         ),
+        Route::DigitalHome => (
+            "デジタル数値計算",
+            ""
+        ),
+        Route::DigitalBase => (
+            "2進数・8進数・10進数・16進数を相互に変換",
+            ""
+        ),
+        Route::DigitalBitCalc => (
+            "ビット演算",
+            ""
+        ),
+        Route::DigitalFloat => (
+            "浮動小数点数",
+            ""
+        ),
         Route::ElectronicHome => (
             "電子回路",
             ""
@@ -73,6 +89,22 @@ pub fn title_dscr(route: Route) -> (String, String) {
 
         Route::HomeEn => (
             "TOP",
+            ""
+        ),
+        Route::DigitalHomeEn => (
+            "Digital Computing",
+            ""
+        ),
+        Route::DigitalBaseEn => (
+            "Convert Binary, Octal, Decimal, and Hexadecimal",
+            ""
+        ),
+        Route::DigitalBitCalcEn => (
+            "Bit Calculation",
+            ""
+        ),
+        Route::DigitalFloatEn => (
+            "Floating Point",
             ""
         ),
         Route::ElectronicHomeEn => (

@@ -1,6 +1,8 @@
 use web_sys::{HtmlInputElement, HtmlSelectElement};
 use yew::prelude::*;
 
+use crate::router::{Lang, Route};
+
 pub fn onchange_form(state: UseStateHandle<String>) -> Callback<Event> {
     Callback::from(move |e: Event| {
         let value = e.target_unchecked_into::<HtmlInputElement>().value();
@@ -14,6 +16,10 @@ pub fn onchange_select(state: UseStateHandle<usize>) -> Callback<Event> {
         let n: usize = value.parse().unwrap();
         state.set(n);
     })
+}
+
+pub fn to_lang_vec(v: &[Route], lang: Lang) -> Vec<Route> {
+    v.iter().map(|route| route.to_lang(lang)).collect::<Vec<Route>>()
 }
 
 #[macro_export]

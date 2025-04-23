@@ -2,16 +2,11 @@ pub mod delta_y;
 
 use yew::prelude::*;
 
-use crate::home::HomeBase;
-use crate::router::{Lang, Route};
-
-#[derive(Properties, PartialEq)]
-pub struct ElectronicHomeProps {
-    pub lang: Lang,
-}
+use crate::home::{HomeBase, HomeProps};
+use crate::router::Route;
 
 #[function_component(ElectronicHome)]
-pub fn electronic_home(props: &ElectronicHomeProps) -> Html {
+pub fn electronic_home(props: &HomeProps) -> Html {
     let lang = props.lang;
     let (home, pages) = (Route::ElectronicHome, vec![Route::ElectronicDeltaY]);
     html! {

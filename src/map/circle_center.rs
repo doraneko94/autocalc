@@ -113,7 +113,7 @@ pub fn map_circle_center(props: &HomeProps) -> Html {
         <InCaseDistortion {lang} />
         <div class="row justify-content-md-center">
         <div class={class_core("")}>
-        <div class="d-none d-sm-block">
+        <div class="table-responsive">
         <table class="table align-middle">
             <thead>
                 <tr><th scope="col" colspan="3">{_parameter(lang)}</th></tr>
@@ -144,7 +144,7 @@ pub fn map_circle_center(props: &HomeProps) -> Html {
             </tbody>
         </table>
         </div>
-        <div class="d-sm-none">
+        <div class="table-responsive">
         <table class="table align-middle">
             <thead>
                 <tr><th scope="col" colspan="2">{_parameter(lang)}</th></tr>
@@ -203,7 +203,7 @@ pub fn map_circle_center(props: &HomeProps) -> Html {
             </tbody>
         </table>
         </div>
-        <div class="d-none d-sm-block">
+        <div class="table-responsive">
         <table class="table align-middle mt-5">
             <thead>
                 <tr><th scope="col" colspan="3">{_result(lang)}</th></tr>
@@ -234,7 +234,7 @@ pub fn map_circle_center(props: &HomeProps) -> Html {
             </tbody>
         </table>
         </div>
-        <div class="d-sm-none">
+        <div class="table-responsive">
         <table class="table align-middle mt-5">
             <thead>
                 <tr><th scope="col" colspan="3">{_result(lang)}</th></tr>

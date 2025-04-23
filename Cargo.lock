@@ -36,6 +36,7 @@ dependencies = [
 name = "autocalc"
 version = "0.1.0"
 dependencies = [
+ "base",
  "coordinate",
  "diffeq",
  "gloo 0.11.0",
@@ -68,6 +69,10 @@ dependencies = [
  "rustc-demangle",
  "windows-targets",
 ]
+
+[[package]]
+name = "base"
+version = "0.1.0"
 
 [[package]]
 name = "bincode"

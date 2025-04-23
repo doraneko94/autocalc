@@ -101,6 +101,10 @@ pub fn home(props: &HomeProps) -> Html {
             match opt_page {
                 Some(p) => {
                     match p.as_str() {
+                        "digital" => { navigator.push(&Route::DigitalHome.to_lang(lang)); },
+                        "digital/base" => { navigator.push(&Route::DigitalBase.to_lang(lang)); },
+                        "digital/bit_calc" => { navigator.push(&Route::DigitalBitCalc.to_lang(lang)); },
+                        "digital/float" => { navigator.push(&Route::DigitalFloat.to_lang(lang)); },
                         "electronic" => { navigator.push(&Route::ElectronicHome.to_lang(lang)); },
                         "electronic/delta_y" => { navigator.push(&Route::ElectronicDeltaY.to_lang(lang)); },
                         "map" => { navigator.push(&Route::MapHome.to_lang(lang)); },
@@ -130,10 +134,12 @@ pub fn home(props: &HomeProps) -> Html {
     let home_page = vec![
         (Route::UnitHome, vec![Route::UnitLength, Route::UnitMass]),
         (Route::MapHome, vec![Route::MapCircleCenter]),
+        (Route::SportHome, vec![Route::SportGolfSg]),
         (Route::MathHome, vec![Route::MathDiffeqLinear2, Route::MathDiffeqLinear2Frac]),
         (Route::StatHome, vec![Route::StatRocAucCi, Route::StatErrorEllipse]),
         (Route::ElectronicHome, vec![Route::ElectronicDeltaY]),
-        (Route::SportHome, vec![Route::SportGolfSg])
+        (Route::DigitalHome, vec![Route::DigitalBase, Route::DigitalFloat, Route::DigitalBitCalc]),
+        
     ];
     let (c0, c1, c2) = split_three_col(&home_page);
     

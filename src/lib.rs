@@ -1,5 +1,6 @@
 pub mod announce;
 pub mod breadcrumb;
+pub mod digital;
 pub mod electronic;
 pub mod footer;
 pub mod header;
