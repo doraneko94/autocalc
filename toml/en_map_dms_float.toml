@@ -1,0 +1,3 @@
+[build]
+target = "../en_map_dms_float.html"
+public_url = "/en/map/dms_float/"

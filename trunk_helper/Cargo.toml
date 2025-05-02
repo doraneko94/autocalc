@@ -1,0 +1,12 @@
+[package]
+name = "trunk_helper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.40"
+regex = "1.11.1"
+
+[[bin]]
+name = "html_generator"
+path = "src/html_generator.rs"

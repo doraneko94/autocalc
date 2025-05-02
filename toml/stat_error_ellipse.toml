@@ -1,0 +1,3 @@
+[build]
+target = "../stat_error_ellipse.html"
+public_url = "/stat/error_ellipse/"

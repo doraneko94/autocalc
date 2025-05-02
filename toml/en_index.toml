@@ -1,0 +1,3 @@
+[build]
+target = "../en_index.html"
+public_url = "/en/"

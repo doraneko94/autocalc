@@ -1,0 +1,3 @@
+[build]
+target = "../digital_base.html"
+public_url = "/digital/base/"

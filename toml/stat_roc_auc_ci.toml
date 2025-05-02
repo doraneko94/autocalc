@@ -1,0 +1,3 @@
+[build]
+target = "../stat_roc_auc_ci.html"
+public_url = "/stat/roc_auc_ci/"

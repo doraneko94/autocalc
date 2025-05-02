@@ -1,0 +1,3 @@
+[build]
+target = "../en_math.html"
+public_url = "/en/math/"

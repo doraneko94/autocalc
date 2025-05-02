@@ -1,5 +1,4 @@
 use yew::prelude::*;
-use web_sys::window;
 
 use crate::layout::{class_core, class_text};
 use crate::meta::title_dscr;
@@ -14,19 +13,6 @@ pub struct TitleProps {
 #[function_component(Title)]
 pub fn title(props: &TitleProps) -> Html {
     let (title, dscr) = title_dscr(props.route.to_lang(props.lang));
-    let document = window().unwrap().document().unwrap();
-    document.set_title(&format!("{} | AutoCalc", &title));
-    if let Some(meta) = document.query_selector("meta[name='description']").unwrap() {
-        meta.set_attribute("content", &dscr).ok();
-    }
-    let html = document.document_element().unwrap();
-    html.set_attribute(
-        "lang",
-        match props.lang {
-            Lang::Ja => "ja",
-            Lang::En => "en",
-        }
-    ).unwrap();
 
     html! {
         <div class="row justify-content-md-center">

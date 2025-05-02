@@ -1,11 +1,11 @@
+use gloo::utils::window;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
 use crate::layout::{class_home, class_text};
-use crate::router::{Lang, Route};
+use crate::router::{DOMAIN, Lang, Route};
 use crate::title::Title;
 use crate::meta::title_dscr;
 
@@ -18,6 +18,7 @@ pub struct HomeTableProps {
 
 #[function_component(HomeTable)]
 pub fn home_table(props: &HomeTableProps) -> Html {
+    let lang = props.lang;
     let (title, _) = title_dscr(props.home);
     html! {
         <table class="table table-bordered mb-2">
@@ -32,18 +33,18 @@ pub fn home_table(props: &HomeTableProps) -> Html {
                     props.pages.iter().enumerate().map(|(i, &route)| html! {
                         <tr>
                         <th scope="row">{i+1}</th>
-                        <td><Link<Route> to={route.clone()} classes="text-reset">{
+                        <td><a href={route.to_url(lang)} class="text-reset">{
                             title_dscr(route).0
-                        }</Link<Route>></td>
+                        }</a></td>
                     </tr>
                     }).collect::<Html>()
                 }
-                <tr><td colspan="2"><Link<Route> to={props.home.clone()}>{
-                    match props.lang {
+                <tr><td colspan="2"><a href={props.home.to_url(lang)}>{
+                    match lang {
                         Lang::Ja => "もっと見る",
                         Lang::En => "See more"
                     }
-                }</Link<Route>></td></tr>
+                }</a></td></tr>
             </tbody>
         </table>
     }
@@ -57,18 +58,19 @@ pub struct HomeCardProps {
 
 #[function_component(HomeCard)]
 pub fn home_card(props: &HomeCardProps) -> Html {
+    let lang = props.lang;
     let (title, dscr) = title_dscr(props.route);
     html! {
         <div class="card mb-2">
             <div class="card-body">
                 <h5 class="card-title"><u>{title}</u></h5>
                 <p class="card-text text-start">{dscr}</p>
-                <Link<Route> to={props.route.clone()} classes="btn btn-primary">{
-                    match props.lang {
+                <a href={props.route.to_url(lang)} class="btn btn-primary">{
+                    match lang {
                         Lang::Ja => "使ってみる",
                         Lang::En => "Try"
                     }
-                }</Link<Route>>
+                }</a>
             </div>
         </div>
     }
@@ -88,52 +90,32 @@ pub struct HomeProps {
 
 #[function_component(Home)]
 pub fn home(props: &HomeProps) -> Html {
-    let mut lang = props.lang;
-    let location = use_location().unwrap();
-    let navigator = use_navigator().unwrap();
-    match lang {
-        Lang::Ja => {
-            let (opt_page, opt_lang) = parse_query(location.query_str());
-            lang = match opt_lang {
-                Some(l) => l,
-                None => Lang::Ja,
-            };
-            match opt_page {
-                Some(p) => {
-                    match p.as_str() {
-                        "digital" => { navigator.push(&Route::DigitalHome.to_lang(lang)); },
-                        "digital/base" => { navigator.push(&Route::DigitalBase.to_lang(lang)); },
-                        "digital/bit_calc" => { navigator.push(&Route::DigitalBitCalc.to_lang(lang)); },
-                        "digital/float" => { navigator.push(&Route::DigitalFloat.to_lang(lang)); },
-                        "electronic" => { navigator.push(&Route::ElectronicHome.to_lang(lang)); },
-                        "electronic/delta_y" => { navigator.push(&Route::ElectronicDeltaY.to_lang(lang)); },
-                        "map" => { navigator.push(&Route::MapHome.to_lang(lang)); },
-                        "map/circle_center" => { navigator.push(&Route::MapCircleCenter.to_lang(lang)); },
-                        "math" => { navigator.push(&Route::MathHome.to_lang(lang)); },
-                        "math/diffeq_linear2" => { navigator.push(&Route::MathDiffeqLinear2.to_lang(lang)); },
-                        "math/diffeq_linear2_frac" => { navigator.push(&Route::MathDiffeqLinear2Frac.to_lang(lang)); },
-                        "sport" => { navigator.push(&Route::SportHome.to_lang(lang)); },
-                        "sport/golf_sg" => { navigator.push(&Route::SportGolfSg.to_lang(lang)); },
-                        "stat" => { navigator.push(&Route::StatHome.to_lang(lang)); },
-                        "stat/error_ellipse" => { navigator.push(&Route::StatErrorEllipse.to_lang(lang)); },
-                        "stat/roc_auc_ci" => { navigator.push(&Route::StatRocAucCi.to_lang(lang)); },
-                        "unit" => { navigator.push(&Route::UnitHome.to_lang(lang)); },
-                        "unit/length" => { navigator.push(&Route::UnitLength.to_lang(lang)); },
-                        "unit/mass" => { navigator.push(&Route::UnitMass.to_lang(lang)); },
-                        "privacy" => { navigator.push(&Route::Privacy.to_lang(lang)); },
-        
-                        _ => {},
+    let lang = props.lang;
+    use_effect(move || {
+        match lang {
+            Lang::Ja => {
+                if let Ok(href) = window().location().href() {
+                    let (opt_page, opt_lang) = parse_query(&href);
+                    let lang = match opt_lang {
+                        Some(l) => l,
+                        None => Lang::Ja,
+                    };
+                    match opt_page {
+                        Some(p) => { let _ = match lang {
+                            Lang::Ja => window().location().set_href(format!("{}/{}/", DOMAIN, p).as_str()),
+                            Lang::En => window().location().set_href(format!("{}/en/{}/", DOMAIN, p).as_str()),
+                        }; }
+                        None => {}
                     }
                 }
-                None => {}
             }
+            Lang::En => {}
         }
-        Lang::En => {}
-    }
+    });
     
     let home_page = vec![
         (Route::UnitHome, vec![Route::UnitLength, Route::UnitMass]),
-        (Route::MapHome, vec![Route::MapCircleCenter]),
+        (Route::MapHome, vec![Route::MapCircleCenter, Route::MapDmsFloat]),
         (Route::SportHome, vec![Route::SportGolfSg]),
         (Route::MathHome, vec![Route::MathDiffeqLinear2, Route::MathDiffeqLinear2Frac]),
         (Route::StatHome, vec![Route::StatRocAucCi, Route::StatErrorEllipse]),
@@ -247,7 +229,9 @@ pub fn home_base(props: &HomeBaseProps) -> Html {
 }
 
 pub fn parse_query(query: &str) -> (Option<String>, Option<Lang>) {
-    let query_replace = query.replace("?", "");
+    let s = query.split("?").collect::<Vec<&str>>();
+    if s.len() != 2 { return (None, None); }
+    let query_replace = s[1];
     let mut params: (Option<String>, Option<Lang>) = (None, None);
     let q_list: Vec<&str> = query_replace.split("&").collect();
     for q in q_list.iter() {

@@ -1,0 +1,3 @@
+[build]
+target = "../en_digital_bit_calc.html"
+public_url = "/en/digital/bit_calc/"

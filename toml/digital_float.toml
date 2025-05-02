@@ -1,0 +1,3 @@
+[build]
+target = "../digital_float.html"
+public_url = "/digital/float/"

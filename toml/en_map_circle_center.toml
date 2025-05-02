@@ -1,0 +1,3 @@
+[build]
+target = "../en_map_circle_center.html"
+public_url = "/en/map/circle_center/"

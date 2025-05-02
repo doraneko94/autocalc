@@ -1,0 +1,3 @@
+[build]
+target = "../en_electronic.html"
+public_url = "/en/electronic/"

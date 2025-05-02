@@ -1,171 +1,76 @@
-use yew::prelude::*;
-use yew_router::prelude::*;
-
-use crate::digital::bit_calc::DigitalBitCalc;
-use crate::digital::DigitalHome;
-use crate::digital::base::DigitalBase;
-use crate::digital::float::DigitalFloat;
-use crate::electronic::ElectronicHome;
-use crate::electronic::delta_y::ElectronicDeltaY;
-use crate::home::Home;
-use crate::map::MapHome;
-use crate::map::circle_center::MapCircleCenter;
-use crate::math::MathHome;
-use crate::math::diffeq_linear2::MathDiffeqLinear2;
-use crate::math::diffeq_linear2_frac::MathDiffeqLinear2Frac;
-use crate::notfound::NotFound;
-use crate::privacy::Privacy;
-use crate::sport::SportHome;
-use crate::sport::golf_sg::SportGolfSg;
-use crate::stat::StatHome;
-use crate::stat::error_ellipse::StatErrorEllipse;
-use crate::stat::roc_auc_ci::StatRocAucCi;
-use crate::unit::UnitHome;
-use crate::unit::length::UnitLength;
-use crate::unit::mass::UnitMass;
+//const DOMAIN: &str = "https://localhost:8000";
+pub const DOMAIN: &str = "https://autocalc.ushitora.net";
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Lang {
     Ja, En
 }
 
-#[derive(Clone, Copy, Routable, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
 pub enum Route {
-    #[at("/")]
     Home,
-    #[at("/privacy")]
     Privacy,
 
-    #[at("/digital/")]
     DigitalHome,
-    #[at("/digital/base")]
     DigitalBase,
-    #[at("/digital/bit_calc")]
     DigitalBitCalc,
-    #[at("/digital/float")]
     DigitalFloat,
     
-    #[at("/electronic/")]
     ElectronicHome,
-    #[at("/electronic/delta_y")]
     ElectronicDeltaY,
 
-    #[at("/map/")]
     MapHome,
-    #[at("/map/circle_center")]
     MapCircleCenter,
-    // #[at("/map/dist_sphere")]
     // MapDistSphere,
+    MapDmsFloat,
 
-    #[at("/math/")]
     MathHome,
-    #[at("/math/diffeq_linear2")]
     MathDiffeqLinear2,
-    #[at("/math/diffeq_linear2_frac")]
     MathDiffeqLinear2Frac,
 
-    #[at("/sport/")]
     SportHome,
-    #[at("/sport/golf_sg")]
     SportGolfSg,
 
-    #[at("/stat/")]
     StatHome,
-    #[at("/stat/error_ellipse")]
     StatErrorEllipse,
-    #[at("/stat/roc_auc_ci")]
     StatRocAucCi,
 
-    #[at("/unit/")]
     UnitHome,
-    #[at("/unit/length")]
     UnitLength,
-    #[at("/unit/mass")]
     UnitMass,
     
-    #[at("/en/")]
     HomeEn,
-    #[at("/en/privacy")]
     PrivacyEn,
 
-    #[at("/en/digital/")]
     DigitalHomeEn,
-    #[at("/en/digital/base")]
     DigitalBaseEn,
-    #[at("/en/digital/bit_calc")]
     DigitalBitCalcEn,
-    #[at("/en/digital/float")]
     DigitalFloatEn,
 
-    #[at("/en/electronic/")]
     ElectronicHomeEn,
-    #[at("/en/electronic/delta_y")]
     ElectronicDeltaYEn,
 
-    #[at("/en/map/")]
     MapHomeEn,
-    #[at("/en/map/circle_center")]
     MapCircleCenterEn,
-    // #[at("/en/map/dist_sphere")]
     // MapDistSphereEn,
+    MapDmsFloatEn,
 
-    #[at("/en/math/")]
     MathHomeEn,
-    #[at("/en/math/diffeq_linear2")]
     MathDiffeqLinear2En,
-    #[at("/en/math/diffeq_linear2_frac")]
     MathDiffeqLinear2FracEn,
 
-    #[at("/en/sport/")]
     SportHomeEn,
-    #[at("/en/sport/golf_sg")]
     SportGolfSgEn,
 
-    #[at("/en/stat/")]
     StatHomeEn,
-    #[at("/en/stat/error_ellipse")]
     StatErrorEllipseEn,
-    #[at("/en/stat/roc_auc_ci")]
     StatRocAucCiEn,
 
-    #[at("/en/unit/")]
     UnitHomeEn,
-    #[at("/en/unit/length")]
     UnitLengthEn,
-    #[at("/en/unit/mass")]
     UnitMassEn,
 
-    #[not_found]
-    #[at("/404")]
     NotFound
-}
-
-pub fn switch(route: Route) -> Html {
-    match route {
-        Route::Home | Route::HomeEn => html! { <><Home lang={route.get_lang()} /></> },
-        Route::Privacy | Route::PrivacyEn => html! { <><Privacy lang={route.get_lang()} /></> },
-        Route::DigitalHome | Route::DigitalHomeEn => html! { <><DigitalHome lang={route.get_lang()} /></> },
-        Route::DigitalBase | Route::DigitalBaseEn => html! { <><DigitalBase lang={route.get_lang()} /></> },
-        Route::DigitalBitCalc | Route::DigitalBitCalcEn => html! { <><DigitalBitCalc lang={route.get_lang()} /></> },
-        Route::DigitalFloat | Route::DigitalFloatEn => html! { <><DigitalFloat lang={route.get_lang()} /></> },
-        Route::ElectronicHome | Route::ElectronicHomeEn => html! { <><ElectronicHome lang={route.get_lang()} /></> },
-        Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => html! { <><ElectronicDeltaY lang={route.get_lang()} /></> },
-        Route::MapHome | Route::MapHomeEn => html! { <><MapHome lang={route.get_lang()} /></> },
-        Route::MapCircleCenter | Route::MapCircleCenterEn => html! { <><MapCircleCenter lang={route.get_lang()} /></> },
-        Route::MathHome | Route::MathHomeEn => html! { <><MathHome lang={route.get_lang()} /></> },
-        Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2En => html! { <><MathDiffeqLinear2 lang={route.get_lang()} /></> },
-        Route::MathDiffeqLinear2Frac | Route::MathDiffeqLinear2FracEn => html! { <><MathDiffeqLinear2Frac lang={route.get_lang()} /></> },
-        Route::SportHome | Route::SportHomeEn => html! { <><SportHome lang={route.get_lang()} /></> },
-        Route::SportGolfSg | Route::SportGolfSgEn => html! { <><SportGolfSg lang={route.get_lang()} /></> },
-        Route::StatHome | Route::StatHomeEn => html! { <><StatHome lang={route.get_lang()} /></> },
-        Route::StatErrorEllipse | Route::StatErrorEllipseEn => html! { <><StatErrorEllipse lang={route.get_lang()} /></> },
-        Route::StatRocAucCi | Route::StatRocAucCiEn => html! { <><StatRocAucCi lang={route.get_lang()} /></> },
-        Route::UnitHome | Route::UnitHomeEn => html! { <><UnitHome lang={route.get_lang()} /></> },
-        Route::UnitLength | Route::UnitLengthEn => html! { <><UnitLength lang={route.get_lang()} /></> },
-        Route::UnitMass | Route::UnitMassEn => html! { <><UnitMass lang={route.get_lang()} /></> },
-
-        Route::NotFound => html! { <><NotFound /></> }
-    }
 }
 
 impl Route {
@@ -193,6 +98,7 @@ impl Route {
             Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => match lang { Lang::Ja => Route::ElectronicDeltaY, Lang::En => Route::ElectronicDeltaYEn },
             Route::MapHome | Route::MapHomeEn => match lang { Lang::Ja => Route::MapHome, Lang::En => Route::MapHomeEn },
             Route::MapCircleCenter | Route::MapCircleCenterEn => match lang { Lang::Ja => Route::MapCircleCenter, Lang::En => Route::MapCircleCenterEn },
+            Route::MapDmsFloat | Route::MapDmsFloatEn => match lang { Lang::Ja => Route::MapDmsFloat, Lang::En => Route::MapDmsFloatEn },
             Route::MathHome | Route::MathHomeEn => match lang { Lang::Ja => Route::MathHome, Lang::En => Route::MathHomeEn },
             Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2En => match lang { Lang::Ja => Route::MathDiffeqLinear2, Lang::En => Route::MathDiffeqLinear2En },
             Route::MathDiffeqLinear2Frac | Route::MathDiffeqLinear2FracEn => match lang { Lang::Ja => Route::MathDiffeqLinear2Frac, Lang::En => Route::MathDiffeqLinear2FracEn },
@@ -207,4 +113,36 @@ impl Route {
             Route::NotFound => Route::NotFound
         }
     }
+
+    pub fn to_url(&self, lang: Lang) -> String {
+        match self {
+            Route::Home | Route::HomeEn => format!("{}/{}", DOMAIN, add_lang_path(lang)),
+            Route::Privacy | Route::PrivacyEn => format!("{}/{}privacy/", DOMAIN, add_lang_path(lang)),
+            Route::DigitalHome | Route::DigitalHomeEn => format!("{}/{}digital/", DOMAIN, add_lang_path(lang)),
+            Route::DigitalBase | Route::DigitalBaseEn => format!("{}/{}digital/base/", DOMAIN, add_lang_path(lang)),
+            Route::DigitalBitCalc | Route::DigitalBitCalcEn => format!("{}/{}digital/bit_calc/", DOMAIN, add_lang_path(lang)),
+            Route::DigitalFloat | Route::DigitalFloatEn => format!("{}/{}digital/float/", DOMAIN, add_lang_path(lang)),
+            Route::ElectronicHome | Route::ElectronicHomeEn => format!("{}/{}electronic/", DOMAIN, add_lang_path(lang)),
+            Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => format!("{}/{}electronic/delta_y/", DOMAIN, add_lang_path(lang)),
+            Route::MapHome | Route::MapHomeEn => format!("{}/{}map/", DOMAIN, add_lang_path(lang)),
+            Route::MapCircleCenter | Route::MapCircleCenterEn => format!("{}/{}map/circle_center/", DOMAIN, add_lang_path(lang)),
+            Route::MapDmsFloat | Route::MapDmsFloatEn => format!("{}/{}map/dms_float/", DOMAIN, add_lang_path(lang)),
+            Route::MathHome | Route::MathHomeEn => format!("{}/{}math/", DOMAIN, add_lang_path(lang)),
+            Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2En => format!("{}/{}math/diffeq_linear2/", DOMAIN, add_lang_path(lang)),
+            Route::MathDiffeqLinear2Frac | Route::MathDiffeqLinear2FracEn => format!("{}/{}math/diffeq_linear2_frac/", DOMAIN, add_lang_path(lang)),
+            Route::SportHome | Route::SportHomeEn => format!("{}/{}sport/", DOMAIN, add_lang_path(lang)),
+            Route::SportGolfSg | Route::SportGolfSgEn => format!("{}/{}sport/golf_sg/", DOMAIN, add_lang_path(lang)),
+            Route::StatHome | Route::StatHomeEn => format!("{}/{}stat/", DOMAIN, add_lang_path(lang)),
+            Route::StatErrorEllipse | Route::StatErrorEllipseEn => format!("{}/{}stat/error_ellipse/", DOMAIN, add_lang_path(lang)),
+            Route::StatRocAucCi | Route::StatRocAucCiEn => format!("{}/{}stat/roc_auc_ci/", DOMAIN, add_lang_path(lang)),
+            Route::UnitHome | Route::UnitHomeEn => format!("{}/{}unit/", DOMAIN, add_lang_path(lang)),
+            Route::UnitLength | Route::UnitLengthEn => format!("{}/{}unit/length/", DOMAIN, add_lang_path(lang)),
+            Route::UnitMass | Route::UnitMassEn => format!("{}/{}unit/mass/", DOMAIN, add_lang_path(lang)),
+            Route::NotFound => format!("{}/404/", DOMAIN),
+        }
+    }
+}
+
+fn add_lang_path(lang: Lang) -> String {
+    match lang { Lang::Ja => "", Lang::En => "en/" }.to_string()
 }

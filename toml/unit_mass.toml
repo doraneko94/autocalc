@@ -1,0 +1,3 @@
+[build]
+target = "../unit_mass.html"
+public_url = "/unit/mass/"

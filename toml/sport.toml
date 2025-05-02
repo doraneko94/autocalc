@@ -1,0 +1,3 @@
+[build]
+target = "../sport.html"
+public_url = "/sport/"

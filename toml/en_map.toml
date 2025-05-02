@@ -1,0 +1,3 @@
+[build]
+target = "../en_map.html"
+public_url = "/en/map/"

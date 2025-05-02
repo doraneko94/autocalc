@@ -1,0 +1,3 @@
+[build]
+target = "../electronic_delta_y.html"
+public_url = "/electronic/delta_y/"

@@ -1,5 +1,5 @@
+use web_sys::{js_sys, window};
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 use crate::set_lang;
 use crate::home::HomeProps;
@@ -13,16 +13,14 @@ set_lang!(_ushitora_dscr,
     " researches, designs and publishes advanced calculation programmes to solve everyday problems. The 'AutoCalc' website was set up to make it easy for everyone to try out our research outputs."
 );
 set_lang!(_contact, "お問い合わせ・不具合報告", "Contact Us");
-set_lang!(_contact_link, "https://ushitora.net/contact", "https://ushitora.net/en-GB/contact");
+set_lang!(_contact_link, "https://ushitora.net/contact", "https://ushitora.net/contact");
 
 #[function_component(Footer)]
 pub fn footer(props: &HomeProps) -> Html {
     let lang = props.lang;
-    let privacy = match lang {
-        Lang::Ja => Route::Privacy,
-        Lang::En => Route::PrivacyEn
-    };
     html! {
+        <>
+        <AdsenseAd />
         <footer class="text-center text-lg-start bg-body-tertiary text-muted mt-auto py-3">
             <div class="text-center p-1" style="background-color: rgba(0, 0, 0, 0.05);">
                 <div class="container">
@@ -33,16 +31,50 @@ pub fn footer(props: &HomeProps) -> Html {
                         </div>
                         <div class="col-md-5 col-lg-4 col-xl-4 mx-auto mb-2">
                             <h6 class="fw-bold mb-2">{"Link"}</h6>
-                            <p><Link<Route> to={privacy} classes="text-reset">{title_dscr(privacy).0}</Link<Route>></p>
+                            <p><a href={Route::Privacy.to_url(lang)} class="text-reset">{title_dscr(Route::Privacy.to_lang(lang)).0}</a></p>
                             <p><a href={_contact_link(lang)} class="text-reset">{_contact(lang)}</a></p>
                         </div>
                     </div>
                 </div>
                 <p>
                     {"© 2023 Copyright: "}
-                    <a class="text-reset fw-bold" href={_ushitora_url(lang)}>{"ushitora.com"}</a>
+                    <a class="text-reset fw-bold" href={_ushitora_url(lang)}>{"ushitora.net"}</a>
                 </p>
             </div>
         </footer>
+        </>
+    }
+}
+
+#[function_component(AdsenseAd)]
+pub fn adsense_ad() -> Html {
+    use_effect(|| {
+        if let Some(_window) = window() {
+            let _ = js_sys::eval(
+                r#"
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                "#
+            );
+        }
+        || ()
+    });
+
+
+    html! {
+        <div>
+        <script async=true src={format!("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5906959653105632")} 
+            crossorigin="anonymous">
+        </script>
+
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-5906959653105632"
+            data-ad-slot="6144288241"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            { r#"(adsbygoogle = window.adsbygoogle || []).push({});"# }
+        </script>
+        </div>
     }
 }

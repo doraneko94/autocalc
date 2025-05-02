@@ -1,0 +1,3 @@
+[build]
+target = "../en_math_diffeq_linear2.html"
+public_url = "/en/math/diffeq_linear2/"

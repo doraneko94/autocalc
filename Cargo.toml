@@ -4,7 +4,8 @@ members = [
     "coordinate",
     "diffeq",
     "matrix",
-    "number_calc"
+    "number_calc", 
+    "trunk_helper"
 ]
 
 [package]
@@ -26,3 +27,183 @@ wasm-bindgen = "0.2.89"
 web-sys = { version = "0.3.66", features = ["CanvasRenderingContext2d", "ClipboardEvent", "DataTransfer", "HtmlCanvasElement", "HtmlSelectElement", "TextMetrics"] }
 yew = { version = "0.21.0", features = ["csr"] }
 yew-router = "0.18.0"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "index"
+path = "src/bin/index.rs"
+
+[[bin]]
+name = "en_index"
+path = "src/bin/en/index.rs"
+
+[[bin]]
+name = "privacy"
+path = "src/bin/privacy/index.rs"
+
+[[bin]]
+name = "en_privacy"
+path = "src/bin/en/privacy/index.rs"
+
+[[bin]]
+name = "digital"
+path = "src/bin/digital/index.rs"
+
+[[bin]]
+name = "en_digital"
+path = "src/bin/en/digital/index.rs"
+
+[[bin]]
+name = "digital_bit_calc"
+path = "src/bin/digital/bit_calc.rs"
+
+[[bin]]
+name = "en_digital_bit_calc"
+path = "src/bin/en/digital/bit_calc.rs"
+
+[[bin]]
+name = "digital_float"
+path = "src/bin/digital/float.rs"
+
+[[bin]]
+name = "en_digital_float"
+path = "src/bin/en/digital/float.rs"
+
+[[bin]]
+name = "digital_base"
+path = "src/bin/digital/base.rs"
+
+[[bin]]
+name = "en_digital_base"
+path = "src/bin/en/digital/base.rs"
+
+[[bin]]
+name = "electronic"
+path = "src/bin/electronic/index.rs"
+
+[[bin]]
+name = "en_electronic"
+path = "src/bin/en/electronic/index.rs"
+
+[[bin]]
+name = "electronic_delta_y"
+path = "src/bin/electronic/delta_y.rs"
+
+[[bin]]
+name = "en_electronic_delta_y"
+path = "src/bin/en/electronic/delta_y.rs"
+
+[[bin]]
+name = "map"
+path = "src/bin/map/index.rs"
+
+[[bin]]
+name = "en_map"
+path = "src/bin/en/map/index.rs"
+
+[[bin]]
+name = "map_circle_center"
+path = "src/bin/map/circle_center.rs"
+
+[[bin]]
+name = "en_map_circle_center"
+path = "src/bin/en/map/circle_center.rs"
+
+[[bin]]
+name = "map_dms_float"
+path = "src/bin/map/dms_float.rs"
+
+[[bin]]
+name = "en_map_dms_float"
+path = "src/bin/en/map/dms_float.rs"
+
+[[bin]]
+name = "math"
+path = "src/bin/math/index.rs"
+
+[[bin]]
+name = "en_math"
+path = "src/bin/en/math/index.rs"
+
+[[bin]]
+name = "math_diffeq_linear2"
+path = "src/bin/math/diffeq_linear2.rs"
+
+[[bin]]
+name = "en_math_diffeq_linear2"
+path = "src/bin/en/math/diffeq_linear2.rs"
+
+[[bin]]
+name = "math_diffeq_linear2_frac"
+path = "src/bin/math/diffeq_linear2_frac.rs"
+
+[[bin]]
+name = "en_math_diffeq_linear2_frac"
+path = "src/bin/en/math/diffeq_linear2_frac.rs"
+
+[[bin]]
+name = "sport"
+path = "src/bin/sport/index.rs"
+
+[[bin]]
+name = "en_sport"
+path = "src/bin/en/sport/index.rs"
+
+[[bin]]
+name = "sport_golf_sg"
+path = "src/bin/sport/golf_sg.rs"
+
+[[bin]]
+name = "en_sport_golf_sg"
+path = "src/bin/en/sport/golf_sg.rs"
+
+[[bin]]
+name = "stat"
+path = "src/bin/stat/index.rs"
+
+[[bin]]
+name = "en_stat"
+path = "src/bin/en/stat/index.rs"
+
+[[bin]]
+name = "stat_error_ellipse"
+path = "src/bin/stat/error_ellipse.rs"
+
+[[bin]]
+name = "en_stat_error_ellipse"
+path = "src/bin/en/stat/error_ellipse.rs"
+
+[[bin]]
+name = "stat_roc_auc_ci"
+path = "src/bin/stat/roc_auc_ci.rs"
+
+[[bin]]
+name = "en_stat_roc_auc_ci"
+path = "src/bin/en/stat/roc_auc_ci.rs"
+
+[[bin]]
+name = "unit"
+path = "src/bin/unit/index.rs"
+
+[[bin]]
+name = "en_unit"
+path = "src/bin/en/unit/index.rs"
+
+[[bin]]
+name = "unit_length"
+path = "src/bin/unit/length.rs"
+
+[[bin]]
+name = "en_unit_length"
+path = "src/bin/en/unit/length.rs"
+
+[[bin]]
+name = "unit_mass"
+path = "src/bin/unit/mass.rs"
+
+[[bin]]
+name = "en_unit_mass"
+path = "src/bin/en/unit/mass.rs"
