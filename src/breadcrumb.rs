@@ -47,6 +47,7 @@ fn parents(route: Route) -> Vec<Route> {
         Route::DigitalBitCalc | Route::DigitalBitCalcEn => vec![Route::Home, Route::DigitalHome],
         Route::DigitalFloat | Route::DigitalFloatEn => vec![Route::Home, Route::DigitalHome],
         Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => vec![Route::Home, Route::ElectronicHome],
+        Route::ElectronicResister | Route::ElectronicResisterEn => vec![Route::Home, Route::ElectronicHome],
         Route::MapCircleCenter | Route::MapCircleCenterEn => vec![Route::Home, Route::MapHome],
         Route::MapDmsFloat | Route::MapDmsFloatEn => vec![Route::Home, Route::MapHome],
         Route::MathDiffeqLinear2 | Route::MathDiffeqLinear2En => vec![Route::Home, Route::MathHome],

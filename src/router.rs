@@ -18,6 +18,7 @@ pub enum Route {
     
     ElectronicHome,
     ElectronicDeltaY,
+    ElectronicResister,
 
     MapHome,
     MapCircleCenter,
@@ -49,6 +50,7 @@ pub enum Route {
 
     ElectronicHomeEn,
     ElectronicDeltaYEn,
+    ElectronicResisterEn,
 
     MapHomeEn,
     MapCircleCenterEn,
@@ -96,6 +98,7 @@ impl Route {
             Route::DigitalFloat | Route::DigitalFloatEn => match lang { Lang::Ja => Route::DigitalFloat, Lang::En => Route::DigitalFloatEn },
             Route::ElectronicHome | Route::ElectronicHomeEn => match lang { Lang::Ja => Route::ElectronicHome, Lang::En => Route::ElectronicHomeEn },
             Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => match lang { Lang::Ja => Route::ElectronicDeltaY, Lang::En => Route::ElectronicDeltaYEn },
+            Route::ElectronicResister | Route::ElectronicResisterEn => match lang { Lang::Ja => Route::ElectronicResister, Lang::En => Route::ElectronicResisterEn },
             Route::MapHome | Route::MapHomeEn => match lang { Lang::Ja => Route::MapHome, Lang::En => Route::MapHomeEn },
             Route::MapCircleCenter | Route::MapCircleCenterEn => match lang { Lang::Ja => Route::MapCircleCenter, Lang::En => Route::MapCircleCenterEn },
             Route::MapDmsFloat | Route::MapDmsFloatEn => match lang { Lang::Ja => Route::MapDmsFloat, Lang::En => Route::MapDmsFloatEn },
@@ -124,6 +127,7 @@ impl Route {
             Route::DigitalFloat | Route::DigitalFloatEn => format!("{}/{}digital/float/", DOMAIN, add_lang_path(lang)),
             Route::ElectronicHome | Route::ElectronicHomeEn => format!("{}/{}electronic/", DOMAIN, add_lang_path(lang)),
             Route::ElectronicDeltaY | Route::ElectronicDeltaYEn => format!("{}/{}electronic/delta_y/", DOMAIN, add_lang_path(lang)),
+            Route::ElectronicResister | Route::ElectronicResisterEn => format!("{}/{}electronic/resister/", DOMAIN, add_lang_path(lang)),
             Route::MapHome | Route::MapHomeEn => format!("{}/{}map/", DOMAIN, add_lang_path(lang)),
             Route::MapCircleCenter | Route::MapCircleCenterEn => format!("{}/{}map/circle_center/", DOMAIN, add_lang_path(lang)),
             Route::MapDmsFloat | Route::MapDmsFloatEn => format!("{}/{}map/dms_float/", DOMAIN, add_lang_path(lang)),

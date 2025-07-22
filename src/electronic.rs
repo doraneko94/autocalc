@@ -1,4 +1,5 @@
 pub mod delta_y;
+pub mod resister;
 
 use yew::prelude::*;
 
@@ -8,7 +9,7 @@ use crate::router::Route;
 #[function_component(ElectronicHome)]
 pub fn electronic_home(props: &HomeProps) -> Html {
     let lang = props.lang;
-    let (home, pages) = (Route::ElectronicHome, vec![Route::ElectronicDeltaY]);
+    let (home, pages) = (Route::ElectronicHome, vec![Route::ElectronicDeltaY, Route::ElectronicResister]);
     html! {
         <>
         <HomeBase {home} {pages} {lang} />

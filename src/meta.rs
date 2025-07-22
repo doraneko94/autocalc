@@ -34,6 +34,10 @@ pub fn title_dscr(route: Route) -> (String, String) {
             "デルタ回路・スター回路を相互変換",
             "等価なデルタ回路とスター回路に含まれる抵抗値の値をリアルタイムに計算します。", 
         ),
+        Route::ElectronicResister => (
+            "カラーコードから抵抗値・許容差を計算",
+            "抵抗器に書かれたカラーコードから、その抵抗値と許容差を計算します。"
+        ),
         Route::MapHome => (
             "地図・空間情報",
             "地図や空間情報を扱うための座標上での計算を提供します。"
@@ -118,6 +122,10 @@ pub fn title_dscr(route: Route) -> (String, String) {
         Route::ElectronicDeltaYEn => (
             "Mutual Conversion of Delta and Star Circuits",
             "Calculate in real time the values of the resistances contained in equivalent Delta and Star circuits."
+        ),
+        Route::ElectronicResisterEn => (
+            "Calculate Resistance and Tolerance from Color Code",
+            "Calculate the resistance value and tolerance based on the color code printed on a resistor."
         ),
         Route::MapHomeEn => (
             "Maps & Spatial Information",
