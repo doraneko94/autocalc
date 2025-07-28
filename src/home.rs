@@ -119,7 +119,7 @@ pub fn home(props: &HomeProps) -> Html {
         (Route::SportHome, vec![Route::SportGolfSg]),
         (Route::MathHome, vec![Route::MathDiffeqLinear2, Route::MathDiffeqLinear2Frac]),
         (Route::StatHome, vec![Route::StatRocAucCi, Route::StatErrorEllipse]),
-        (Route::ElectronicHome, vec![Route::ElectronicDeltaY]),
+        (Route::ElectronicHome, vec![Route::ElectronicDeltaY, Route::ElectronicResister]),
         (Route::DigitalHome, vec![Route::DigitalBase, Route::DigitalFloat, Route::DigitalBitCalc]),
         
     ];

@@ -15,7 +15,7 @@ const DESCRIPTION: [&str; NUM_LANG] = [
     "AutoCalcは数字と闘う職人・エンジニアのため、高速かつ高精度の計算をオンラインにて無料で提供します。単位の変換といった日常生活で役立つ計算から、学術論文で活用できる統計関数まで、幅広い計算に対応しています。", 
     "AutoCalc provides fast, accurate calculations online for free for craftsmen and engineers who struggle with numbers. It supports a wide range of computations, from calculations useful in everyday life such as unit conversion to statistical functions that can be used in academic papers."
 ];
-const DATA: [(&str, [&str; NUM_LANG], [&str; NUM_LANG]); 21] = [
+const DATA: [(&str, [&str; NUM_LANG], [&str; NUM_LANG]); 22] = [
     ("privacy", ["プライバシーポリシー・免責事項", "Privacy Policy / Disclaimer"], [
         "AutoCalcのプライバシーポリシー・免責事項です。", 
         "This is Privacy Policy / Disclaimer of AutoCalc."]),
@@ -43,6 +43,10 @@ const DATA: [(&str, [&str; NUM_LANG], [&str; NUM_LANG]); 21] = [
     ("electronic/delta_y", ["デルタ回路・スター回路を相互変換", "Mutual Conversion of Delta and Star Circuits"], [
         "等価なデルタ回路とスター回路に含まれる抵抗値の値をリアルタイムに計算します。", 
         "Calculate in real time the values of the resistances contained in equivalent Delta and Star circuits."]),
+    
+    ("electronic/resister", ["カラーコードから抵抗値・許容差を計算", "Calculate Resistance and Tolerance from Color Code"], [
+        "抵抗器に書かれたカラーコードから、その抵抗値と許容差を計算します。", 
+        "Calculate the resistance value and tolerance based on the color code printed on a resistor."]),
 
     ("map", ["地図・空間情報", "Maps & Spatial Information"], [
         "地図や空間情報を扱うための座標上での計算を提供します。", 

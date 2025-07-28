@@ -1,0 +1,3 @@
+[build]
+target = "../electronic_resister.html"
+public_url = "/electronic/resister/"

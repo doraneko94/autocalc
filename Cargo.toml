@@ -97,6 +97,14 @@ name = "en_electronic_delta_y"
 path = "src/bin/en/electronic/delta_y.rs"
 
 [[bin]]
+name = "electronic_resister"
+path = "src/bin/electronic/resister.rs"
+
+[[bin]]
+name = "en_electronic_resister"
+path = "src/bin/en/electronic/resister.rs"
+
+[[bin]]
 name = "map"
 path = "src/bin/map/index.rs"
 

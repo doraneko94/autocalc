@@ -3,308 +3,322 @@
 
   <url>
     <loc>https://autocalc.ushitora.net/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/privacy/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/privacy/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/digital/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/digital/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/digital/base/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/digital/base/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/digital/bit_calc/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/digital/bit_calc/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/digital/float/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/digital/float/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/electronic/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/electronic/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/electronic/delta_y/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/electronic/delta_y/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://autocalc.ushitora.net/electronic/resister/</loc>
+    <lastmod>2025-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://autocalc.ushitora.net/en/electronic/resister/</loc>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/map/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/map/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/map/circle_center/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/map/circle_center/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/map/dms_float/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/map/dms_float/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/math/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/math/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/math/diffeq_linear2/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/math/diffeq_linear2/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/math/diffeq_linear2_frac/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/math/diffeq_linear2_frac/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/sport/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/sport/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/sport/golf_sg/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/sport/golf_sg/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/stat/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/stat/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/stat/error_ellipse/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/stat/error_ellipse/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/stat/roc_auc_ci/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/stat/roc_auc_ci/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/unit/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/unit/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/unit/length/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/unit/length/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/unit/mass/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://autocalc.ushitora.net/en/unit/mass/</loc>
-    <lastmod>2025-05-02</lastmod>
+    <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

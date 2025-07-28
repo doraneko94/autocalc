@@ -1,73 +1,29 @@
-use wasm_bindgen::prelude::*;
-use web_sys::HtmlInputElement;
 use yew::prelude::*;
 
-use crate::announce::{InvalidInput, Reference};
 use crate::breadcrumb::BreadCrumb;
 use crate::footer::Footer;
 use crate::header::Header;
 use crate::home::HomeProps;
-use crate::layout::{class_core, class_half};
+use crate::layout::class_core;
 use crate::router::{Lang, Route};
-use crate::{parse_state, set_lang};
+use crate::set_lang;
 use crate::title::Title;
 
 set_lang!(_none, "無", "None");
 set_lang!(_black, "黒", "Black");
-set_lang!(_, "", "");
+set_lang!(_brown, "茶", "Brown");
+set_lang!(_red, "赤", "Red");
+set_lang!(_orange, "橙", "Orange");
+set_lang!(_yellow, "黄", "Yellow");
+set_lang!(_green, "緑", "Green");
+set_lang!(_blue, "青", "Blue");
+set_lang!(_purple, "紫", "Purple");
+set_lang!(_gray, "灰", "Gray");
+set_lang!(_white, "白", "White");
+set_lang!(_gold, "金", "Gold");
+set_lang!(_silver, "銀", "Silver");
 
-#[derive(Properties, PartialEq)]
-pub struct ElectronicDeltaYFormProps {
-    pub id: String,
-    pub value: UseStateHandle<String>,
-    pub name: String,
-    pub onchange: Callback<(String, String)>,
-}
-
-#[function_component(ElectronicDeltaYForm)]
-pub fn electronic_delta_y_form(props: &ElectronicDeltaYFormProps) -> Html {
-    let onchange = {
-        let state = props.value.clone();
-        let id = props.id.clone();
-        let onchange_parent = props.onchange.clone();
-        Callback::from(move |e: Event| {
-            let value = e.target_unchecked_into::<HtmlInputElement>().value();
-            state.set(value.clone());
-            onchange_parent.emit((value, id.clone()));
-        })
-    };
-    html! {
-        <>
-            <td class="text-end" style="width: 20%">{props.name.clone()}</td>
-            <td style="width: 60%">
-                <input type="number" step="0.1" value={(*props.value).clone()} {onchange} class="form-control" id={props.id.clone()} />
-            </td>
-            <td style="width: 20%">{"\\(\\Omega\\)"}</td>
-        </>
-    }
-}
-
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_name = typesetPromise)]
-    fn typeset_promise();
-}
-
-enum ColorCode {
-    Black,
-    Brown,
-    Red,
-    Orange,
-    Yellow,
-    Green,
-    Blue,
-    Purple,
-    Gray,
-    White,
-    Gold,
-    Silver,
-}
-
+#[derive(Clone, Copy)]
 enum I8Mode {
     First,
     Second,
@@ -91,38 +47,99 @@ impl Default for Resistance {
             second: Some(0),
             third: None,
             exp: Some(0),
-            error: "1".to_string()
+            error: "1%".to_string()
         }
     }
 }
 
 impl Resistance {
-    fn decode_resistance(code: ColorCode) -> Option<u8> {
-        match code {
-            ColorCode::Black => Some(0),
-            ColorCode::Brown => Some(1),
-            ColorCode::Red => Some(2),
-            ColorCode::Orange => Some(3),
-            ColorCode::Yellow => Some(4),
-            ColorCode::Green => Some(5),
-            ColorCode::Blue => Some(6),
-            ColorCode::Purple => Some(7),
-            ColorCode::Gray => Some(8),
-            ColorCode::White => Some(9),
-            ColorCode::Gold => None,
-            ColorCode::Silver => None,
-        }
+    fn show(&self) -> String {
+        let r = match (self.first, self.second, self.third) {
+            (Some(f), Some(s), Some(t)) => (f as u16 * 100 + s as u16 * 10 + t as u16).to_string(),
+            (Some(f), Some(s), _) => (f as u16 * 10 + s as u16).to_string(),
+            _ => { return "Error".to_string(); }
+        };
+        if let Some(ex) = self.exp {
+            let c = (r.len() as i8 - 1 + ex) / 3;
+            let u = match c {
+                -1 => "m",
+                0 => "",
+                1 => "k",
+                2 => "M",
+                3 => "G",
+                _ => { return "Error".to_string(); }
+            };
+            if let Ok(rf) = r.parse::<f32>() {
+                let rs = format!("{:.2}", rf * 10f32.powi((ex - 3 * c) as i32)).trim_end_matches('0').trim_end_matches('.').to_string();
+                return format!("{}{}Ω ± {}", rs, u, self.error);
+            } else { return "Error".to_string(); }
+        } else { return "Error".to_string(); }
     }
 }
 
-fn select_resistance<T: Fn(I8Mode)-> Callback<Event>>(f: T, mode: I8Mode) -> Html {
-    html! {
-        <select class="form-select w-auto" onchange={f(mode)}>
-            { match mode {
-                I8Mode::Third => html! { <option value="none">{}</> },
-                _ => html! { <></> },
-            } }
+fn background_color(s: &str) -> String {
+    let s = match s {
+        "1%" => "background-color: #8B4513; color: white;",
+        "2%" => "background-color: red; color: white;",
+        "0.05%" => "background-color: orange; color: black;",
+        "0.5%" => "background-color: green; color: white;",
+        "0.25%" => "background-color: blue; color: white;",
+        "0.1%" => "background-color: purple; color: white;",
+        "5%" => "background-color: goldenrod; color: black;",
+        "10%" => "background-color: silver; color: black;",
+        _ => "background-color: white; color: black;",
+    };
+    s.to_string()
+}
 
+fn select_resistance<T: Fn(I8Mode)-> Callback<Event>>(f: T, mode: I8Mode, now: Option<i8>, lang: Lang) -> Html {
+    let bg_color = match now {
+        Some(0) => "background-color: black; color: white;",
+        Some(1) => "background-color: #8B4513; color: white;",
+        Some(2) => "background-color: red; color: white;",
+        Some(3) => "background-color: orange; color: black;",
+        Some(4) => "background-color: yellow; color: black;",
+        Some(5) => "background-color: green; color: white;",
+        Some(6) => "background-color: blue; color: white;",
+        Some(7) => "background-color: purple; color: white;",
+        Some(8) => "background-color: gray; color: black;",
+        Some(-1) => "background-color: goldenrod; color: black;",
+        Some(-2) => "background-color: silver; color: black;",
+        _ => "background-color: white; color: black;",
+    };
+    html! {
+        <select class="form-select" style={format!("font-size: 16px; padding: 6px; width: 100%; {}", bg_color)} onchange={f(mode)}>
+            { match mode {
+                I8Mode::Third => html! {
+                    <>
+                        <option value="none" style="background-color: white; color: black;" selected=true>{_none(lang)}</option>
+                        <option value="0" style="background-color: black; color: white;">{_black(lang)}</option>
+                    </>
+                },
+                _ => html! { <option value="0" style="background-color: black; color: white;" selected=true>{_black(lang)}</option> },
+            } }
+            <option value="1" style="background-color: #8B4513; color: white;">{_brown(lang)}</option>
+            <option value="2" style="background-color: red; color: white;">{_red(lang)}</option>
+            <option value="3" style="background-color: orange; color: black;">{_orange(lang)}</option>
+            <option value="4" style="background-color: yellow; color: black;">{_yellow(lang)}</option>
+            <option value="5" style="background-color: green; color: white;">{_green(lang)}</option>
+            <option value="6" style="background-color: blue; color: white;">{_blue(lang)}</option>
+            <option value="7" style="background-color: purple; color: white;">{_purple(lang)}</option>
+            { match mode {
+                I8Mode::Exp => html! {
+                    <>
+                        <option value="-3" style="background-color: white; color: black;">{_white(lang)}</option>
+                        <option value="-1" style="background-color: goldenrod; color: black;">{_gold(lang)}</option>
+                        <option value="-2" style="background-color: silver; color: black;">{_silver(lang)}</option>
+                    </>
+                },
+                _ => html! {
+                    <>
+                        <option value="8" style="background-color: gray; color: black;">{_gray(lang)}</option>
+                        <option value="9" style="background-color: white; color: black;">{_white(lang)}</option>
+                    </>
+                }
+            } }
         </select>
     }
 }
@@ -163,51 +180,49 @@ pub fn electronic_resister(props: &HomeProps) -> Html {
 
     html! {
         <>
-        <Header route={Route::ElectronicDeltaY} {lang} />
-        <BreadCrumb route={Route::ElectronicDeltaY} {lang} />
+        <Header route={Route::ElectronicResister} {lang} />
+        <BreadCrumb route={Route::ElectronicResister} {lang} />
         <main class="container mt-2">
-        <Title route={Route::ElectronicDeltaY} {lang} />
-        <InvalidInput {lang} />
-        <Reference {lang} url_ja={"https://ushitora.net/archives/2744"} url_en={"https://ushitora.net/archives/2744"} />
+        <Title route={Route::ElectronicResister} {lang} />
         <div class="row justify-content-md-center">
-            <div class={class_core("")}>
-            <table class="table align-middle">
-                <thead>
-                    <th class="text-center" scope="col" style="width: 50%">{_delta(lang)}</th>
-                    <th class="text-center" scope="col" style="width: 50%">{_star(lang)}</th>
-                </thead>
-                <tbody>
-                    <td><img src="/img/D.webp" class="img-fluid" /></td>
-                    <td><img src="/img/Y.webp" class="img-fluid" /></td>
-                </tbody>
-            </table>
-            <div class="row justify-content-center">
-            <div class={class_half("")}>
-            <table class="table align-middle">
-            <thead>
-                <tr><th class="text-center" scope="col" colspan="3">{_delta(lang)}</th></tr>
-            </thead>
-            <tbody>
-                <tr><ElectronicDeltaYForm id={"d_a"} value={d_a.clone()} name={"\\(R_a\\)"} onchange={onchange.clone()} /></tr>
-                <tr><ElectronicDeltaYForm id={"d_b"} value={d_b.clone()} name={"\\(R_b\\)"} onchange={onchange.clone()} /></tr>
-                <tr><ElectronicDeltaYForm id={"d_c"} value={d_c.clone()} name={"\\(R_c\\)"} onchange={onchange.clone()} /></tr>
-            </tbody>
-            </table>
-            </div>
-            <div class={class_half("")}>
-            <table class="table align-middle">
-            <thead>
-                <tr><th class="text-center" scope="col" colspan="3">{_star(lang)}</th></tr>
-            </thead>
-            <tbody>
-                <tr><ElectronicDeltaYForm id={"s_a"} value={s_a.clone()} name={"\\(r_a\\)"} onchange={onchange.clone()} /></tr>
-                <tr><ElectronicDeltaYForm id={"s_b"} value={s_b.clone()} name={"\\(r_b\\)"} onchange={onchange.clone()} /></tr>
-                <tr><ElectronicDeltaYForm id={"s_c"} value={s_c.clone()} name={"\\(r_c\\)"} onchange={onchange.clone()} /></tr>
-            </tbody>
-            </table>
-            </div>
-            </div>
-            </div>
+        <div class={class_core("")}>
+        <div class="table-responsive">
+        <table class="table align-middle" style="table-layout: fixed; width: 100%;">
+        <thead>
+            <th class="text-center" scope="col" style="width: 20%">{"1"}</th>
+            <th class="text-center" scope="col" style="width: 20%">{"2"}</th>
+            <th class="text-center" scope="col" style="width: 20%">{"(3)"}</th>
+            <th class="text-center" scope="col" style="width: 20%">{"4"}</th>
+            <th class="text-center" scope="col" style="width: 20%">{"5"}</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{select_resistance(onchange_i8, I8Mode::First, (&*resistance).first, lang)}</td>
+                <td>{select_resistance(onchange_i8, I8Mode::Second, (&*resistance).second, lang)}</td>
+                <td>{select_resistance(onchange_i8, I8Mode::Third, (&*resistance).third, lang)}</td>
+                <td>{select_resistance(onchange_i8, I8Mode::Exp, (&*resistance).exp, lang)}</td>
+                <td>
+                <select class="form-select" 
+                    style={format!("font-size: 16px; padding: 6px; width: 100%; box-sizing: border-box; {}", background_color(&(&*resistance).error))} 
+                    onchange={onchange_error}>
+                    <option value="1%" style="background-color: #8B4513; color: white;" selected=true>{_brown(lang)}</option>
+                    <option value="2%" style="background-color: red; color: white;">{_red(lang)}</option>
+                    <option value="0.05%" style="background-color: orange; color: black;">{_orange(lang)}</option>
+                    <option value="0.5%" style="background-color: green; color: white;">{_green(lang)}</option>
+                    <option value="0.25%" style="background-color: blue; color: white;">{_blue(lang)}</option>
+                    <option value="0.1%" style="background-color: purple; color: white;">{_purple(lang)}</option>
+                    <option value="5%" style="background-color: goldenrod; color: black;">{_gold(lang)}</option>
+                    <option value="10%" style="background-color: silver; color: black;">{_silver(lang)}</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center" colspan="5">{&*resistance.show()}</td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
         </div>
         </main>
         <Footer {lang} />
